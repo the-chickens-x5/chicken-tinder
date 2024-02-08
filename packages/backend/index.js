@@ -27,11 +27,17 @@ app.post("/flocks/:code/chicks", (req, res) => {
 	res.send(`Chick added to flock ${req.params.code}`);
 });
 
-app.post("/flocks/:code/options", (req, res) => {
+app.post("/flocks/:code/votes", (req, res) => {
+	// body should contain the relevant info
+	// (member, egg, vote direction)
+	res.send(`Vote added to flock ${req.params.code}`);
+});
+
+app.post("/flocks/:code/basket", (req, res) => {
 	res.send(`Options added to flock ${req.params.code}`);
 });
 
-app.get("/flocks/:code/options", (req, res) => {
+app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 

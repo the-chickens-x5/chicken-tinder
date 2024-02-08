@@ -1,6 +1,12 @@
 import express from "express";
+import cors from "cors";
+import { findFlockByCode } from "./flock-services.js";
 
 const app = express();
+const port = 8000;
+
+app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
 	res.send("Hello World!");
@@ -12,7 +18,9 @@ app.post("/flocks", (req, res) => {
 });
 
 app.get("/flocks/:code", (req, res) => {
-	res.send(`Flock ${req.params.code}`);
+	findFlockByCode(req.params.code).then((flock) => {
+		res.send(flock);
+	});
 });
 
 app.delete("/flocks/:code", (req, res) => {
@@ -45,6 +53,6 @@ app.get("/flocks/:code/decision", (req, res) => {
 	res.send(`Decision of flock ${req.params.code}`);
 });
 
-app.listen(3000, () => {
-	console.log("Server is running on port 3000");
+app.listen(port, () => {
+	console.log(`Server is running on port ${port}`);
 });

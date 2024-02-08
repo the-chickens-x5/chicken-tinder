@@ -32,23 +32,26 @@ const eggSchema = new mongoose.Schema({
 	},
 });
 
-const flockSchema = new mongoose.Schema({
-	coop_name: {
-		// unique identifier for the flock (e.g. "flyingtaco")
-		type: String,
-		required: true,
-		trim: true,
-		unique: true,
+const flockSchema = new mongoose.Schema(
+	{
+		coop_name: {
+			// unique identifier for the flock (e.g. "flyingtaco")
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		chicks: {
+			type: [chickSchema],
+			required: true,
+		},
+		basket: {
+			type: [eggSchema],
+			required: true,
+		},
 	},
-	chicks: {
-		type: [chickSchema],
-		required: true,
-	},
-	basket: {
-		type: [eggSchema],
-		required: true,
-	},
-});
+	{ collection: "flocks" }
+);
 
 const Flock = mongoose.model("Flock", flockSchema);
 

@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const preferenceSchema = new mongoose.Schema({
-	option: {
-		type: mongoose.ObjectId,
+	egg: {
+		type: mongoose.ObjectId, // reference to an egg
 		required: true,
 	},
 	vote: {
-		type: Number,
+		type: Number, // 1 for up, -1 for down
 		required: true,
 	},
 });
@@ -20,7 +20,7 @@ const chickSchema = new mongoose.Schema({
 	preferences: [preferenceSchema],
 });
 
-const optionSchema = new mongoose.Schema({
+const eggSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		required: true,
@@ -34,6 +34,7 @@ const optionSchema = new mongoose.Schema({
 
 const flockSchema = new mongoose.Schema({
 	coop_name: {
+		// unique identifier for the flock (e.g. "flyingtaco")
 		type: String,
 		required: true,
 		trim: true,
@@ -43,8 +44,8 @@ const flockSchema = new mongoose.Schema({
 		type: [chickSchema],
 		required: true,
 	},
-	options: {
-		type: [optionSchema],
+	basket: {
+		type: [eggSchema],
 		required: true,
 	},
 });

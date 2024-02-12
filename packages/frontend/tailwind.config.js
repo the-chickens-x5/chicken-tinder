@@ -6,6 +6,15 @@ module.exports = {
 			colors: {
 				primary: "#FC8800",
 			},
+			borderRadius: {
+				normal: "20px",
+			},
+			spacing: {
+				normal: "60px",
+			},
+			fontSize: {
+				normal: "30px",
+			},
 		},
 	},
 	plugins: [],

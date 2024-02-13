@@ -15,10 +15,13 @@ function findFlockByCode(code) {
 async function createFlock() {
 	const code = codeGenerator.generateCode();
 	let curNum = 0;
-	while (await findFlockByCode(`${code}${curNum > 0 ? curNum : ""}`)) {
+	// Check to see if the code already exists by finding
+	// a flock with that code
+	let finalCode = code;
+	while (await findFlockByCode(finalCode)) {
 		curNum++;
+		finalCode = `${code}${curNum}`;
 	}
-	const finalCode = `${code}${curNum > 0 ? curNum : ""}`;
 	const flock = new flockModel({ coop_name: finalCode, chicks: [], basket: [] });
 	return flock.save();
 }

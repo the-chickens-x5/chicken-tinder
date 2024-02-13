@@ -10,7 +10,7 @@ export default function WelcomePage() {
 	async function createGroup() {
 		const res = await axios.post(`${process.env.REACT_APP_API_URL}/flocks`);
 		if (res.status === 201) {
-			console.log("Group created",  res.data);
+			console.log("Group created", res.data);
 			navigate(`/flock/${res.data.coop_name}/join`);
 		} else {
 			console.error("Failed to create group");
@@ -19,9 +19,7 @@ export default function WelcomePage() {
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
-			<FullWidthButton onClick={createGroup}>
-				Rally my flock
-			</FullWidthButton>
+			<FullWidthButton onClick={createGroup}>Rally my flock</FullWidthButton>
 			<TextButtonInput
 				placeholder="Or enter coop name to join a flock"
 				buttonText="let's go -->"

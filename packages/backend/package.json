@@ -10,5 +10,8 @@
 	},
 	"type": "module",
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"env-cmd": "^10.1.0"
+	}
 }

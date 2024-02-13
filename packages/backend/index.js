@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { findFlockByCode } from "./flock-services.js";
+import { findFlockByCode, createFlock } from "./flock-services.js";
 
 const app = express();
 const port = 8000;
@@ -12,9 +12,14 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
-app.post("/flocks", (req, res) => {
-	const code = "flyingtaco";
-	res.send(`Flock created with code: ${code}`);
+app.post("/flocks", async (req, res) => {
+	try {
+		const flock = await createFlock();
+		res.status(201).send(flock);
+	} catch (e) {
+		console.error(e);
+		res.status(500).send("Failed to create flock");
+	}
 });
 
 app.get("/flocks/:code", (req, res) => {

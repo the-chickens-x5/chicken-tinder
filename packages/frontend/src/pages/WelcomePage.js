@@ -1,8 +1,13 @@
 import React from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
+import axios from "axios";
 
-export default function GroupCreation() {
+export default function WelcomePage() {
+	async function createGroup() {
+		const res = await axios.post(`${process.env.REACT_APP_API_URL}/flocks`);
+	}
+
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthButton onClick={() => console.log("Creating group")}>

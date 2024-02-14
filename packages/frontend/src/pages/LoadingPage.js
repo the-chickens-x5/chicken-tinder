@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FullWidthText } from "../components/Input/Text";
 
-export default function Loading() {
+export default function LoadingPage() {
 	const [text, setText] = useState("The chickens are still quarrelling...");
 
 	useEffect(() => {

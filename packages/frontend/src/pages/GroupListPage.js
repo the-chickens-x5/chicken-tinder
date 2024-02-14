@@ -4,7 +4,7 @@ import { FullWidthText } from "../components/Input/Text";
 import { CopyTextButton, SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
 
-export default function GroupList() {
+export default function GroupListPage() {
 	const params = useParams();
 
 	return (

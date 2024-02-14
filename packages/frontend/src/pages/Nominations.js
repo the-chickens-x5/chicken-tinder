@@ -4,7 +4,7 @@ import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 
-export default function NameForm() {
+export default function Nominations() {
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Put your eggs in the basket</FullWidthText>

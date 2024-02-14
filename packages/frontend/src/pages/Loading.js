@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FullWidthText } from "../components/Input/Text";
 
-const Loading = () => {
+export default function Loading() {
 	const [text, setText] = useState("The chickens are still quarrelling...");
 
 	useEffect(() => {
@@ -29,6 +29,4 @@ const Loading = () => {
 			<FullWidthText>{text}</FullWidthText>
 		</div>
 	);
-};
-
-export default Loading;
+}

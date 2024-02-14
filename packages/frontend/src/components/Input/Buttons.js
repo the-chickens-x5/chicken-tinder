@@ -42,7 +42,7 @@ export function CopyTextButton(props) {
 	return (
 		<div className="flex flex-row rounded-normal bg-secondary w-full text-normal">
 			<div className="flex items-center justify-start w-full text-gray_text p-4 rounded-normal text-normal">
-				{props.linkText}
+				{props.displayText}
 			</div>
 			<button
 				onClick={(input) => props.onClick(input)}

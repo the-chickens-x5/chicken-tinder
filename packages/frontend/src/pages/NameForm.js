@@ -12,7 +12,7 @@ export default function NameForm() {
 			<TextButtonInput
 				placeholder="Chickie McDee"
 				buttonText="let's go -->"
-				onClick={(input) => navigate(`/flock/${input}/lobby/`)}
+				onClick={(input) => navigate(`/flock/:coop_name/lobby/`)}
 			/>
 		</div>
 	);

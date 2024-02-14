@@ -4,22 +4,16 @@ import { CopyTextButton, SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
 
 export default function NameForm() {
-    return (
-        <div className="flex flex-col space-y-normal justify-center w-5/6">
-            <FullWidthText>
-                Coop Name: 
-            </FullWidthText>
-            <CopyTextButton
-                linkText="http://localhost:3000/flock/flyingtaco/join/"
-                buttonText="copy invite link"
-                onClick={(input) => console.log("Invite link copied to clipboard", input)}
-            />
-            <BigText>
-                My Flock
-            </BigText>
-            <SmallButton
-                buttonText="let's go -->"
-            />
-        </div>
-    );
+	return (
+		<div className="flex flex-col space-y-normal justify-center w-5/6">
+			<FullWidthText>Coop Name:</FullWidthText>
+			<CopyTextButton
+				linkText="http://localhost:3000/flock/flyingtaco/join/"
+				buttonText="copy invite link"
+				onClick={(input) => console.log("Invite link copied to clipboard", input)}
+			/>
+			<BigText>My Flock</BigText>
+			<SmallButton buttonText="let's go -->" />
+		</div>
+	);
 }

@@ -23,7 +23,7 @@ export default function WelcomePage() {
 			<TextButtonInput
 				placeholder="Or enter coop name to join a flock"
 				buttonText="let's go -->"
-				onClick={(input) => console.log("Joining group with name", input)}
+				onClick={(input) => navigate(`/flock/${input}/join`)}
 			/>
 		</div>
 	);

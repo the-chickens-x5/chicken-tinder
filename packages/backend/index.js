@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { findFlockByCode, createFlock } from "./flock-services.js";
+import { findFlockByCode, createFlock, addChickToFlock } from "./flock-services.js";
 
 const app = express();
 const port = 8000;
@@ -29,16 +29,25 @@ app.get("/flocks/:code", (req, res) => {
 	});
 });
 
+app.post("/flocks/:coop_name/chicks", async (req, res) => {
+	console.log(`POST /flocks/${req.params.coop_name}/chicks`);
+	console.log(req.body);
+
+	const chick = await addChickToFlock(req.params.coop_name, req.body.name);
+
+	if (!chick) {
+		res.status(400).send({ message: "Chick already exists" });
+		return;
+	}
+	res.send({ name: chick });
+});
+
 app.delete("/flocks/:code", (req, res) => {
 	res.send(`Flock ${req.params.code} deleted`);
 });
 
 app.get("/flocks/:code/chicks", (req, res) => {
 	res.send(`Chicks of flock ${req.params.code}`);
-});
-
-app.post("/flocks/:code/chicks", (req, res) => {
-	res.send(`Chick added to flock ${req.params.code}`);
 });
 
 app.post("/flocks/:code/votes", (req, res) => {

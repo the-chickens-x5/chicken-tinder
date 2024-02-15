@@ -5,13 +5,13 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "env-cmd -f ./config/.env nodemon src/index.js",
-		"server": "env-cmd -f ./config/.env node src/index.js"
+		"dev": "nodemon src/index.js",
+		"server": "node src/index.js"
 	},
 	"type": "module",
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"env-cmd": "^10.1.0"
+		"dotenv": "16.4.4"
 	}
 }

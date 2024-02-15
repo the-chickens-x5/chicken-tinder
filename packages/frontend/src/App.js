@@ -7,6 +7,7 @@ import NominationPage from "./pages/NominationPage";
 import VotingPage from "./pages/VotingPage";
 import LoadingPage from "./pages/LoadingPage";
 import WinnerPage from "./pages/WinnerPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 				<Route path="/flock/:coop_name/winner/" element={<WinnerPage />} />
 				<Route path="/flock/:coop_name/join/" element={<NameFormPage />} />
 			</Routes>
+			<Toaster />
 		</div>
 	);
 }

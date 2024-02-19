@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import flockModel from "./flock.js";
+import eggSchema from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
+import Flock from "./flock.js";
 
 const db_password = process.env.DB_PASSWORD;
 const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.net/?retryWrites=true&w=majority`;
@@ -26,4 +28,22 @@ async function createFlock() {
 	return flock.save();
 }
 
-export { findFlockByCode, createFlock };
+async function createEgg(code, name){
+	let flock = await findFlockByCode(code);
+	const egg = ({title: name, votes: 0});
+	if(!Array.isArray(flock.basket)){
+		flock.basket = [];
+	}
+	await flock.basket.push(egg);
+	// update 
+	flockModel.findByIdAndUpdate(flock._id, {basket: flock.basket})
+	.then(updatedFlock => {
+		console.log("Changes saved successfully: ", updatedFlock);
+	}) 
+	.catch(err => 
+		{console.error("Error saving changes: ", err);
+	});
+
+	return egg;
+}
+export { findFlockByCode, createFlock, createEgg };

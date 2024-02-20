@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { findFlockByCode, createFlock } from "./flock-services.js";
+import { findFlockByCode, createFlock, createEgg } from "./flock-services.js";
 
 const app = express();
 const port = 8000;
@@ -46,8 +46,15 @@ app.post("/flocks/:code/votes", (req, res) => {
 	res.send(`Vote added to flock ${req.params.code}`);
 });
 
-app.post("/flocks/:code/basket", (req, res) => {
-	res.send(`Options added to flock ${req.params.code}`);
+app.post("/flocks/:code/basket/:name", async (req, res) => {
+	try{
+		const egg = await createEgg(req.params.code, req.params.name);
+		res.status(201).send(egg);
+	} 
+	catch (e) {
+		console.error(e);
+		res.status(500).send("Failed to create egg");
+	}
 });
 
 app.get("/flocks/:code/basket", (req, res) => {

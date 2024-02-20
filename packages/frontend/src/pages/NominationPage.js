@@ -3,17 +3,20 @@ import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
+import { useParams } from "react-router";
 
 
-async function postEggs(name){
-	const result = await fetch(`Http://localhost:8000/flocks/:code/basket/${name}`, {method: "POST"});
-	return result;
-}
 export default function NominationPage() {
+    const params = useParams();
     const [restaurants, setRestaurants] = useState([]);
 
+    async function postEggs(name) {
+        const result = await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${name}`, { method: "POST" });
+        return result;
+    }
+
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/flocks/flyingtaco/basket/`)
+        fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/`)
             .then(response => response.json())
             .then(data => setRestaurants(data))
             .catch(error => console.error('Error:', error));

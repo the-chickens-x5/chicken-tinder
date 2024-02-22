@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 
 export default function NameFormPage() {
 	const navigate = useNavigate();
-    const params = useParams();
+	const params = useParams();
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
@@ -14,7 +14,7 @@ export default function NameFormPage() {
 			<TextButtonInput
 				placeholder="Chickie McDee"
 				buttonText="let's go -->"
-                onClick={(input) => navigate(`/flock/${params.coop_name}/lobby/`)}
+				onClick={(input) => navigate(`/flock/${params.coop_name}/lobby/`)}
 			/>
 		</div>
 	);

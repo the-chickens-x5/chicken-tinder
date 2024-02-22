@@ -47,11 +47,10 @@ app.post("/flocks/:code/votes", (req, res) => {
 });
 
 app.post("/flocks/:code/basket/:name", async (req, res) => {
-	try{
+	try {
 		const egg = await createEgg(req.params.code, req.params.name);
 		res.status(201).send(egg);
-	} 
-	catch (e) {
+	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to create egg");
 	}

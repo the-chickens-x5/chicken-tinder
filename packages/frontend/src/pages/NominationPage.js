@@ -25,7 +25,7 @@ export default function NominationPage() {
 			.then((response) => response.json())
 			.then((data) => setRestaurants(data))
 			.catch((error) => console.error("Error:", error));
-	}, []);
+	}, [params.coop_name]);
 
 	function TableBody(props) {
 		const rows = props.eggData.map((restaurant, index) => {

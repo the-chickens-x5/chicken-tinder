@@ -48,15 +48,14 @@ app.get("/flocks/:code", (req, res) => {
 });
 
 app.post("/flocks/:coop_name/chicks", async (req, res) => {
-	console.log(`POST /flocks/${req.params.coop_name}/chicks`);
-	console.log(req.body);
-
 	const chick = await addChickToFlock(req.params.coop_name, req.body.name);
 
 	if (!chick) {
 		res.status(400).send({ message: "Chick already exists" });
 		return;
 	}
+
+	io.to(req.params.code).emit("chick-added", req.body);
 	res.send({ name: chick });
 });
 

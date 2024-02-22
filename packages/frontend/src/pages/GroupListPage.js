@@ -18,7 +18,7 @@ export default function GroupListPage() {
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
-			<FullWidthText>Coop Name:</FullWidthText>
+			<FullWidthText>Coop Name: {params.coop_name}</FullWidthText>
 			<TextButtonInput
 				value={`http://localhost:3000/flock/${params.coop_name}/join/`}
 				buttonText="copy invite link"

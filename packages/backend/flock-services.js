@@ -8,7 +8,7 @@ const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.
 
 mongoose.connect(url, { dbName: "chicken-tinder" }).catch((error) => console.error(error));
 
-function findFlockByCode(code) {
+async function findFlockByCode(code) {
 	return flockModel.findOne({ coop_name: code });
 }
 
@@ -45,4 +45,24 @@ async function createEgg(code, name) {
 
 	return egg;
 }
-export { findFlockByCode, createFlock, createEgg };
+
+/**
+ * Adds a chick to the flock document unless the chick name already exists
+ * @param {String} coop_name
+ * @param {String} chickName
+ * @returns the chick name if added, null if chick already exists
+ */
+async function addChickToFlock(coop_name, chickName) {
+	const flock = await findFlockByCode(coop_name);
+
+	// if name already exists, ignore
+	if (flock.chicks.some((chick) => chick.name === chickName)) {
+		return null;
+	}
+
+	flock.chicks.push({ name: chickName, votes: [] });
+	await flockModel.findOneAndReplace({ coop_name: coop_name }, flock);
+	return chickName;
+}
+
+export { findFlockByCode, createFlock, addChickToFlock, createEgg};

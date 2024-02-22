@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { findFlockByCode, createFlock, addChickToFlock } from "./flock-services.js";
+import getWinningRestaurant from "./decision.js";
 
 const app = express();
 const port = 8000;
@@ -64,8 +65,10 @@ app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 
-app.get("/flocks/:code/decision", (req, res) => {
-	res.send(`Decision of flock ${req.params.code}`);
+app.get("/flocks/:coop_name/decision", (req, res) => {
+	console.log(`GET /flocks/${req.params.coop_name}/decision`);
+	const result = getWinningRestaurant(req.params.coop_name);
+	res.send(result);
 });
 
 app.listen(port, () => {

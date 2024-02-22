@@ -5,51 +5,47 @@ import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { useParams } from "react-router";
 
-
 export default function NominationPage() {
-    const params = useParams();
-    const [restaurants, setRestaurants] = useState([]);
+	const params = useParams();
+	const [restaurants, setRestaurants] = useState([]);
 
-    async function postEggs(name) {
-        const result = await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${name}`, { method: "POST" });
-        if (result.ok) {
-            setRestaurants(prevRestaurants => [...prevRestaurants, name]);
-        }
-        return result;
-    }
+	async function postEggs(name) {
+		const result = await fetch(
+			`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${name}`,
+			{ method: "POST" }
+		);
+		if (result.ok) {
+			setRestaurants((prevRestaurants) => [...prevRestaurants, name]);
+		}
+		return result;
+	}
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/`)
-            .then(response => response.json())
-            .then(data => setRestaurants(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
+	useEffect(() => {
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/`)
+			.then((response) => response.json())
+			.then((data) => setRestaurants(data))
+			.catch((error) => console.error("Error:", error));
+	}, [params.coop_name]);
 
-    function TableBody(props) {
-        const rows = props.eggData.map((restaurant, index) => {
-            return (
-                <tr key={index}>
-                    <td style={{ textAlign: 'center', fontSize: '24px' }}>{restaurant}</td>
-                </tr>
-            );
-        });
-        return (
-            <tbody>
-                {rows}
-            </tbody>
-        );
-    }
+	function TableBody(props) {
+		const rows = props.eggData.map((restaurant, index) => {
+			return (
+				<tr key={index}>
+					<td style={{ textAlign: "center", fontSize: "24px" }}>{restaurant}</td>
+				</tr>
+			);
+		});
+		return <tbody>{rows}</tbody>;
+	}
 
-    function Table(props) {
-        console.log("Props in table", props);
-        return (
-            <table>
-                <TableBody
-                    eggData={props.egg}
-                />
-            </table>
-        );
-    }
+	function Table(props) {
+		console.log("Props in table", props);
+		return (
+			<table>
+				<TableBody eggData={props.egg} />
+			</table>
+		);
+	}
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
@@ -58,12 +54,17 @@ export default function NominationPage() {
 				placeholder="Restaurant Name"
 				buttonText="submit"
 				onClick={(input) => {
-					console.log("Restaurant name submitted", input, "\nCurrent restaurants:", restaurants);
+					console.log(
+						"Restaurant name submitted",
+						input,
+						"\nCurrent restaurants:",
+						restaurants
+					);
 					postEggs(input);
 				}}
 			/>
 			<BigText>The Basket</BigText>
-            <Table egg={restaurants} />
+			<Table egg={restaurants} />
 			<SmallButton buttonText="let's go -->" />
 		</div>
 	);

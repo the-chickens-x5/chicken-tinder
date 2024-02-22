@@ -1,9 +1,27 @@
 import express from "express";
 import cors from "cors";
 import { findFlockByCode, createFlock, addChickToFlock } from "./flock-services.js";
+import http from "http";
+import { Server } from "socket.io";
 
 const app = express();
+const server = http.createServer(app);
 const port = 8000;
+
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:3000",
+	},
+});
+
+io.on("connection", (socket) => {
+	socket.on("join-flock", (code) => {
+		socket.join(code);
+	});
+	socket.on("leave-flock", (code) => {
+		socket.leave(code);
+	});
+});
 
 app.use(express.json());
 app.use(cors());

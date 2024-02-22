@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { useNavigate } from "react-router-dom";
+import CoopContext from "../context/coop-context";
 
 export default function WelcomePage() {
 	const navigate = useNavigate();
+	const coopContext = useContext(CoopContext);
+
 
 	async function createGroup() {
 		const res = await fetch(`${process.env.REACT_APP_API_URL}/flocks`, {
@@ -12,6 +15,7 @@ export default function WelcomePage() {
 		});
 		if (res.status === 201) {
 			const info = await res.json();
+			coopContext.connectToFlock(info.coop_name);
 			navigate(`/flock/${info.coop_name}/join`);
 		} else {
 			console.error("Failed to create group");

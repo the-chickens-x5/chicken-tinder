@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
@@ -6,8 +6,10 @@ import { BigText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import toast from "react-hot-toast";
 
+
 export default function GroupListPage() {
 	const params = useParams();
+	const coopContext = useContext(CoopContext);
 
 	function copyToClipboardAndNotify(input) {
 		navigator.clipboard.writeText(input);

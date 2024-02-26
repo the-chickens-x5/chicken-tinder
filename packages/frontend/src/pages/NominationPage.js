@@ -4,18 +4,19 @@ import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { useParams } from "react-router";
+import Table from "../components/Table";
 
 export default function NominationPage() {
 	const params = useParams();
 	const [restaurants, setRestaurants] = useState([]);
 
-	async function postEggs(name) {
+	async function postEggs(title) {
 		const result = await fetch(
-			`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${name}`,
+			`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${title}`,
 			{ method: "POST" }
 		);
 		if (result.ok) {
-			setRestaurants((prevRestaurants) => [...prevRestaurants, name]);
+			setRestaurants((prevRestaurants) => [...prevRestaurants, title]);
 		}
 		return result;
 	}
@@ -27,24 +28,7 @@ export default function NominationPage() {
 			.catch((error) => console.error("Error:", error));
 	}, [params.coop_name]);
 
-	function TableBody(props) {
-		const rows = props.eggData.map((restaurant, index) => {
-			return (
-				<tr key={index}>
-					<td style={{ textAlign: "center", fontSize: "24px" }}>{restaurant}</td>
-				</tr>
-			);
-		});
-		return <tbody>{rows}</tbody>;
-	}
-
-	function Table(props) {
-		return (
-			<table>
-				<TableBody eggData={props.egg} />
-			</table>
-		);
-	}
+	
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
@@ -52,12 +36,10 @@ export default function NominationPage() {
 			<TextButtonInput
 				placeholder="Restaurant Name"
 				buttonText="submit"
-				onClick={(input) => {
-					postEggs(input);
-				}}
+				onClick={(input) => {postEggs(input);}}
 			/>
 			<BigText>The Basket</BigText>
-			<Table egg={restaurants} />
+			<Table rows={restaurants} />
 			<SmallButton buttonText="let's go -->" />
 		</div>
 	);

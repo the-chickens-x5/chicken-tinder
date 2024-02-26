@@ -26,12 +26,9 @@ async function createFlock() {
 	return flock.save();
 }
 
-async function createEgg(code, name) {
+async function createEgg(code, title) {
 	let flock = await findFlockByCode(code);
-	const egg = { title: name, votes: 0 };
-	if (!Array.isArray(flock.basket)) {
-		flock.basket = [];
-	}
+	const egg = { title: title, votes: 0 };
 	await flock.basket.push(egg);
 	// update
 	flockModel
@@ -65,4 +62,4 @@ async function addChickToFlock(coop_name, chickName) {
 	return chickName;
 }
 
-export { findFlockByCode, createFlock, addChickToFlock, createEgg};
+export { findFlockByCode, createFlock, addChickToFlock, createEgg };

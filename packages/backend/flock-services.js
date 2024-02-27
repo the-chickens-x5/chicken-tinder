@@ -34,8 +34,13 @@ async function createFlock() {
 async function createEgg(code, title) {
 	const flock = await findFlockByCode(code);
 	const egg = { title: title, votes: 0 };
-	flock.basket.push(egg);
-	await flock.save();
+	if (flock.basket.some((egg) => egg.title === title)) {
+		return null;
+	}
+	else{
+		flock.basket.push(egg);
+		await flock.save();
+	}
 	return egg;
 }
 

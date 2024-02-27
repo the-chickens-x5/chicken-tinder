@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import flockModel from "./flock.js";
+import Flock from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 
@@ -9,7 +9,7 @@ const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.
 mongoose.connect(url, { dbName: "chicken-tinder" }).catch((error) => console.error(error));
 
 async function findFlockByCode(code) {
-	return flockModel.findOne({ coop_name: code });
+	return Flock.findOne({ coopName: code });
 }
 
 async function createFlock() {
@@ -22,18 +22,31 @@ async function createFlock() {
 		curNum++;
 		finalCode = `${code}${curNum}`;
 	}
-	const flock = new flockModel({ coop_name: finalCode, chicks: [], basket: [] });
+	const flock = new Flock({ coopName: finalCode, chicks: [], basket: [] });
 	return flock.save();
+}
+/**
+ * 
+ * @param {String} code 
+ * @param {String} title 
+ * @returns restaurant name that has been added, null if already exists
+ */
+async function createEgg(code, title) {
+	const flock = await findFlockByCode(code);
+	const egg = { title: title };
+	flock.basket.push(egg);
+	await flock.save();
+	return egg;
 }
 
 /**
  * Adds a chick to the flock document unless the chick name already exists
- * @param {String} coop_name
+ * @param {String} coopName
  * @param {String} chickName
  * @returns the chick name if added, null if chick already exists
  */
-async function addChickToFlock(coop_name, chickName) {
-	const flock = await findFlockByCode(coop_name);
+async function addChickToFlock(coopName, chickName) {
+	const flock = await findFlockByCode(coopName);
 
 	// if name already exists, ignore
 	if (flock.chicks.some((chick) => chick.name === chickName)) {
@@ -41,8 +54,8 @@ async function addChickToFlock(coop_name, chickName) {
 	}
 
 	flock.chicks.push({ name: chickName, votes: [] });
-	await flockModel.findOneAndReplace({ coop_name: coop_name }, flock);
+	await Flock.findOneAndReplace({ coopName: coopName }, flock);
 	return chickName;
 }
 
-export { findFlockByCode, createFlock, addChickToFlock };
+export { findFlockByCode, createFlock, addChickToFlock, createEgg };

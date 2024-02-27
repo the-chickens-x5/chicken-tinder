@@ -38,4 +38,4 @@ In general, if you want to add your own env variable, use `REACT_APP_{varname}={
 
 ## Class (Data Model) Diagrams
 
-![Schema](https://drive.google.com/file/d/1M_X629jj6EgxytR4sn7AzZuW8pZHu7tv/view?usp=sharing)
+[Schema](https://drive.google.com/file/d/1M_X629jj6EgxytR4sn7AzZuW8pZHu7tv/view?usp=sharing)

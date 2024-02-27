@@ -44,7 +44,7 @@ const eggSchema = new mongoose.Schema({
 
 const flockSchema = new mongoose.Schema(
 	{
-		coop_name: {
+		coopName: {
 			// unique identifier for the flock (e.g. "flyingtaco")
 			type: String,
 			required: true,

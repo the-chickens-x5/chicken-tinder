@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import CoopContext from "../context/coop-context";
 
 export default function GroupListPage() {
+	const navigate = useNavigate();
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
 
@@ -36,7 +37,10 @@ export default function GroupListPage() {
 				textDisabled={true}
 			/>
 			<BigText>My Flock</BigText>
-			<SmallButton buttonText="let's go -->" />
+			<SmallButton 
+				buttonText="let's go -->" 
+				onClick={() => navigate(`/flock/${params.coop_name}/nominations`)}
+			/>
 		</div>
 	);
 }

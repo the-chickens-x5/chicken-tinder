@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import flockModel from "./flock.js";
+import Flock from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 
@@ -9,7 +9,7 @@ const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.
 mongoose.connect(url, { dbName: "chicken-tinder" }).catch((error) => console.error(error));
 
 async function findFlockByCode(code) {
-	return flockModel.findOne({ coop_name: code });
+	return Flock.findOne({ coop_name: code });
 }
 
 async function createFlock() {
@@ -22,8 +22,21 @@ async function createFlock() {
 		curNum++;
 		finalCode = `${code}${curNum}`;
 	}
-	const flock = new flockModel({ coop_name: finalCode, chicks: [], basket: [] });
+	const flock = new Flock({ coop_name: finalCode, chicks: [], basket: [] });
 	return flock.save();
+}
+/**
+ * 
+ * @param {String} code 
+ * @param {String} title 
+ * @returns restaurant name that has been added, null if already exists
+ */
+async function createEgg(code, title) {
+	const flock = await findFlockByCode(code);
+	const egg = { title: title, votes: 0 };
+	flock.basket.push(egg);
+	await flock.save();
+	return egg;
 }
 
 /**
@@ -41,8 +54,8 @@ async function addChickToFlock(coop_name, chickName) {
 	}
 
 	flock.chicks.push({ name: chickName, votes: [] });
-	await flockModel.findOneAndReplace({ coop_name: coop_name }, flock);
+	await Flock.findOneAndReplace({ coop_name: coop_name }, flock);
 	return chickName;
 }
 
-export { findFlockByCode, createFlock, addChickToFlock };
+export { findFlockByCode, createFlock, addChickToFlock, createEgg };

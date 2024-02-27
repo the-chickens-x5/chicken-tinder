@@ -12,7 +12,10 @@ export default function WinnerPage() {
 		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/decision`)
 			.then((response) => response.json())
 			.then((data) => {
-				setWinner(data);
+				setWinner(data.winner);
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	}, [params.coop_name]);
 
@@ -21,7 +24,7 @@ export default function WinnerPage() {
 			{winningRestaurant ? (
 				<div className="flex flex-col space-y-normal justify-center w-5/6">
 					<FullWidthText>Winner Winner Chicken Dinner!</FullWidthText>
-					<BigText>{winningRestaurant.name}</BigText>
+					<BigText>{winningRestaurant}</BigText>
 					<div className="flex justify-between">
 						<HalfWidthButton>Return Home</HalfWidthButton>
 						<HalfWidthButton>Revote</HalfWidthButton>

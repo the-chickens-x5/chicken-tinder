@@ -73,8 +73,8 @@ app.get("/flocks/:code/basket", (req, res) => {
 
 app.get("/flocks/:coop_name/decision", (req, res) => {
 	console.log(`GET /flocks/${req.params.coop_name}/decision`);
-	const result = getWinningRestaurant(req.params.coop_name);
-	res.send(result);
+	const restaurantName = getWinningRestaurant(req.params.coop_name);
+	res.send({ winner: restaurantName });
 });
 
 app.listen(port, () => {

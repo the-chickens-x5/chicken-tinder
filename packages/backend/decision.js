@@ -35,7 +35,7 @@ async function getWinningRestaurant(coop_name) {
 
 	// Return the name of the best restaurant (highest "yes" to "no" ratio),
 	// or null if there are no restaurants
-	return bestRestaurant ? bestRestaurant.name : null;
+	return bestRestaurant ? bestRestaurant.title : null;
 }
 
 export default getWinningRestaurant;

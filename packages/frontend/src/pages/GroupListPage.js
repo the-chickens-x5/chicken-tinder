@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
@@ -7,6 +7,7 @@ import TextButtonInput from "../components/Input/TextButtonInput";
 import toast from "react-hot-toast";
 
 export default function GroupListPage() {
+	const navigate = useNavigate();
 	const params = useParams();
 
 	function copyToClipboardAndNotify(input) {
@@ -26,7 +27,10 @@ export default function GroupListPage() {
 				textDisabled={true}
 			/>
 			<BigText>My Flock</BigText>
-			<SmallButton buttonText="let's go -->" />
+			<SmallButton 
+				buttonText="let's go -->" 
+				onClick={() => navigate(`/flock/${params.coop_name}/nominations`)}
+			/>
 		</div>
 	);
 }

@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export default function WelcomePage() {
 	const navigate = useNavigate();
 
-
 	async function createGroup() {
 		const res = await fetch(`${process.env.REACT_APP_API_URL}/flocks`, {
 			method: "POST",

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
@@ -6,7 +6,6 @@ import { BigText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import toast from "react-hot-toast";
 import CoopContext from "../context/coop-context";
-
 
 export default function GroupListPage() {
 	const params = useParams();

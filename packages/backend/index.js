@@ -48,15 +48,15 @@ app.get("/flocks/:code", (req, res) => {
 	});
 });
 
-app.post("/flocks/:coop_name/chicks", async (req, res) => {
-	const chick = await addChickToFlock(req.params.coop_name, req.body.name);
+app.post("/flocks/:coopName/chicks", async (req, res) => {
+	const chick = await addChickToFlock(req.params.coopName, req.body.name);
 
 	if (!chick) {
 		res.status(400).send({ message: "Chick already exists" });
 		return;
 	}
 
-	io.to(req.params.coop_name).emit("message", { type: "chick-added", chick: chick });
+	io.to(req.params.coopName).emit("message", { type: "chick-added", chick: chick });
 	res.send({ name: chick });
 });
 
@@ -74,9 +74,9 @@ app.post("/flocks/:code/votes", (req, res) => {
 	res.send(`Vote added to flock ${req.params.code}`);
 });
 
-app.post("/flocks/:coop_name/basket/:title", async (req, res) => {
+app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	try {
-		const egg = await createEgg(req.params.coop_name, req.params.title);
+		const egg = await createEgg(req.params.coopName, req.params.title);
 		res.status(201).send(egg);
 	} catch (e) {
 		console.error(e);

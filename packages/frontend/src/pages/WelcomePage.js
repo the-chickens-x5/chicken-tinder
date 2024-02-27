@@ -12,7 +12,7 @@ export default function WelcomePage() {
 		});
 		if (res.status === 201) {
 			const info = await res.json();
-			navigate(`/flock/${info.coop_name}/join`);
+			navigate(`/flock/${info.coopName}/join`);
 		} else {
 			console.error("Failed to create group");
 		}

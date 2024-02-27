@@ -43,7 +43,7 @@ export function YesButton(props) {
 		<div className="flex justify-end w-screen h-screen">
 			<button
 				onClick={(input) => props.onClick(input)}
-				className="bg-accent_red text-white p-4 rounded-normal text-medium w-1/2 h-1/2"
+				className="bg-accent_red text-white p-4 rounded-normal text-medium w-95% h-1/2"
 			>
 				{props.buttonText}
 			</button>
@@ -61,7 +61,7 @@ export function NoButton(props) {
 		<div className="flex justify-start w-screen h-screen">
 			<button
 				onClick={(input) => props.onClick(input)}
-				className="bg-accent_yellow text-white p-4 rounded-normal text-medium w-1/2 h-1/2"
+				className="bg-accent_yellow text-white p-4 rounded-normal text-medium w-95% h-1/2"
 			>
 				{props.buttonText}
 			</button>

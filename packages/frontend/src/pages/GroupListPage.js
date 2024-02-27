@@ -5,6 +5,7 @@ import { SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import toast from "react-hot-toast";
+import CoopContext from "../context/coop-context";
 
 
 export default function GroupListPage() {
@@ -17,6 +18,14 @@ export default function GroupListPage() {
 			position: "bottom-right",
 		});
 	}
+
+	useEffect(() => {
+		coopContext.connectToFlock(params.coop_name);
+	}, [params.coop_name]);
+
+	useEffect(() => {
+		console.log(coopContext.messages);
+	}, [coopContext.messages]);
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">

@@ -7,10 +7,12 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app);
 const port = 8000;
+const socketPort = 8001;
 
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: "*",
+		methods: ["GET", "POST"],
 	},
 });
 
@@ -55,7 +57,7 @@ app.post("/flocks/:coop_name/chicks", async (req, res) => {
 		return;
 	}
 
-	io.to(req.params.code).emit("chick-added", req.body);
+	io.to(req.params.coop_name).emit("message", { type: "chick-added", chick: chick });
 	res.send({ name: chick });
 });
 
@@ -85,6 +87,6 @@ app.get("/flocks/:code/decision", (req, res) => {
 	res.send(`Decision of flock ${req.params.code}`);
 });
 
-app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
+server.listen(port, () => {
+	console.log(`Server listening at http://localhost:${port}`);
 });

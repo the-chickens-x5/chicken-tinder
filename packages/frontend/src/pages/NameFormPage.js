@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import LoadingPage from "./LoadingPage";
+import CoopContext from "../context/coop-context";
 
 export default function NameFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
+	const coopContext = useContext(CoopContext);
 
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
@@ -28,7 +30,7 @@ export default function NameFormPage() {
 			});
 	}, [navigate, params.coop_name]);
 
-	async function addChick(name, setChick) {
+	async function addChick(name) {
 		const result = await fetch(
 			process.env.REACT_APP_API_URL + `/flocks/${params.coop_name}/chicks`,
 			{

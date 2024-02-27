@@ -42,7 +42,6 @@ app.post("/flocks", async (req, res) => {
 });
 
 app.get("/flocks/:code", (req, res) => {
-	console.log(`GET /flocks/${req.params.code}`);
 	findFlockByCode(req.params.code).then((flock) => {
 		res.send(flock);
 	});

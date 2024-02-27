@@ -3,10 +3,11 @@ import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import Table from "../components/Table";
 
 export default function NominationPage() {
+	const navigate = useNavigate();
 	const params = useParams();
 	const [restaurants, setRestaurants] = useState([]);
 
@@ -40,7 +41,10 @@ export default function NominationPage() {
 			/>
 			<BigText>The Basket</BigText>
 			<Table rows={restaurants} />
-			<SmallButton buttonText="let's go -->" />
+			<SmallButton 
+				buttonText="let's go -->" 
+				onClick={() => navigate(`/flock/${params.coop_name}/voting/`)}
+			/>
 		</div>
 	);
 }

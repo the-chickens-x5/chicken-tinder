@@ -9,7 +9,7 @@ const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.
 mongoose.connect(url, { dbName: "chicken-tinder" }).catch((error) => console.error(error));
 
 async function findFlockByCode(code) {
-	return Flock.findOne({ coop_name: code });
+	return Flock.findOne({ coopName: code });
 }
 
 async function createFlock() {
@@ -22,7 +22,7 @@ async function createFlock() {
 		curNum++;
 		finalCode = `${code}${curNum}`;
 	}
-	const flock = new Flock({ coop_name: finalCode, chicks: [], basket: [] });
+	const flock = new Flock({ coopName: finalCode, chicks: [], basket: [] });
 	return flock.save();
 }
 /**
@@ -46,12 +46,12 @@ async function createEgg(code, title) {
 
 /**
  * Adds a chick to the flock document unless the chick name already exists
- * @param {String} coop_name
+ * @param {String} coopName
  * @param {String} chickName
  * @returns the chick name if added, null if chick already exists
  */
-async function addChickToFlock(coop_name, chickName) {
-	const flock = await findFlockByCode(coop_name);
+async function addChickToFlock(coopName, chickName) {
+	const flock = await findFlockByCode(coopName);
 
 	// if name already exists, ignore
 	if (flock.chicks.some((chick) => chick.name === chickName)) {
@@ -59,7 +59,7 @@ async function addChickToFlock(coop_name, chickName) {
 	}
 
 	flock.chicks.push({ name: chickName, votes: [] });
-	await Flock.findOneAndReplace({ coop_name: coop_name }, flock);
+	await Flock.findOneAndReplace({ coopName: coopName }, flock);
 	return chickName;
 }
 

@@ -23,6 +23,9 @@ module.exports = {
 				medium: "40px",
 				big: "50px",
 			},
+			width: {
+				'95%': '95%',
+			}
 		},
 	},
 	plugins: [],

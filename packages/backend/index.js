@@ -7,7 +7,6 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app);
 const port = 8000;
-const socketPort = 8001;
 
 const io = new Server(server, {
 	cors: {

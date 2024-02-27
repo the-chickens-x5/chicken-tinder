@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { useNavigate } from "react-router-dom";

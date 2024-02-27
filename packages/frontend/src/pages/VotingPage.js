@@ -13,31 +13,8 @@ export default function VotingPage() {
 	const coopName = params.coopName;
 	const chick = localStorage.getItem("chickName");
 
-	function getFirstEgg() {
+	function postVote(body) {
 		fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote/`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				setEgg(data.egg);
-			})
-			.catch((error) => console.error("Error:", error));
-	}
-
-	useEffect(getFirstEgg, [chick, coopName, navigate]);
-
-	function handleVote(vote) {
-		let body;
-		// if its the first time, we don't send a vote
-		if (egg && vote !== null) {
-			egg.vote = vote;
-			body = JSON.stringify({ egg: egg });
-		}
-
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -48,14 +25,24 @@ export default function VotingPage() {
 				if (response.status === 204) {
 					navigate(`/flock/${coopName}/winner/`)
 				} else {
-					return response;
+					return response.json();
 				}
 			})
-			.then((response) => response.json())
 			.then((data) => {
-				setEgg(data.egg);
+				if (data) {
+					setEgg(data.egg);
+				}
 			})
-			.catch((error) => console.error("Error sending vote", error));
+			.catch((error) => console.error("Error:", error));
+	}
+
+	useEffect(postVote, [chick, coopName, navigate]);
+
+	function handleVote(vote) {
+		egg.vote = vote;
+		const body = JSON.stringify({ egg: egg });
+
+		postVote(body);
 	}
 
 	return (

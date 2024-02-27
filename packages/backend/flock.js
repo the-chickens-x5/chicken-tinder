@@ -4,7 +4,6 @@ const preferenceSchema = new mongoose.Schema({
 	egg: {
 		type: mongoose.ObjectId, // reference to an egg
 		required: true,
-		unique: true,
 	},
 	vote: {
 		type: Number, // 1 for up, -1 for down
@@ -18,7 +17,6 @@ const chickSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
-		unique: true,
 	},
 	preferences: [preferenceSchema],
 });
@@ -28,7 +26,6 @@ const eggSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
-		unique: true,
 	},
 	yesVotes: {
 		type: Number,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function WelcomePage() {
 		});
 		if (res.status === 201) {
 			const info = await res.json();
-			navigate(`/flock/${info.coop_name}/join`);
+			navigate(`/flock/${info.coopName}/join`);
 		} else {
 			console.error("Failed to create group");
 		}

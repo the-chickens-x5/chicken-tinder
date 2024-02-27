@@ -68,13 +68,7 @@ app.get("/flocks/:code/chicks", (req, res) => {
 	res.send(`Chicks of flock ${req.params.code}`);
 });
 
-app.post("/flocks/:code/votes", (req, res) => {
-	// body should contain the relevant info
-	// (member, egg, vote direction)
-	res.send(`Vote added to flock ${req.params.code}`);
-});
-
-app.post("/flocks/:coopName/basket/:title", async (req, res) => {
+app.post("/flocks/:coop_name/basket/:title", async (req, res) => {
 	try {
 		const egg = await createEgg(req.params.coopName, req.params.title);
 		res.status(201).send(egg);
@@ -127,13 +121,11 @@ app.get("/flocks/:coop_name/:chick/vote", async (req, res) => {
 });
 
 app.post("/flocks/:coop_name/:chick/vote", async (req, res) => {
-	// console.log(`POST /flocks/${req.params.coop_name}/${req.params.chick}/vote`);
 	const coopName = req.params.coop_name;
 	const chickName = req.params.chick;
 	const egg = req.body.egg;
 
-	// console.log(egg);
-
+	// check if flock and chick exists 
 	const flock = await findFlockByCode(coopName);
 	if (!flock) {
 		res.status(404).send({ message: "Flock not found" });
@@ -145,6 +137,7 @@ app.post("/flocks/:coop_name/:chick/vote", async (req, res) => {
 		return;
 	}
 
+	// check if the chick has already voted
 	const oldPreference = chick.preferences.find((preference) => preference.egg === egg._id);
 	if (oldPreference) {
 		res.status(400).send({ message: "Already voted" });

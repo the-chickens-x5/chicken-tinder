@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import LoadingPage from "./LoadingPage";
-import { useNavigate } from "react-router-dom";
 
 export default function NameFormPage() {
 	const navigate = useNavigate();

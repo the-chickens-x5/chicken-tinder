@@ -28,15 +28,15 @@ export default function NominationPage() {
 			.catch((error) => console.error("Error:", error));
 	}, [params.coop_name]);
 
-	
-
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Put your eggs in the basket</FullWidthText>
 			<TextButtonInput
 				placeholder="Restaurant Name"
 				buttonText="submit"
-				onClick={(input) => {postEggs(input);}}
+				onClick={(input) => {
+					postEggs(input);
+				}}
 			/>
 			<BigText>The Basket</BigText>
 			<Table rows={restaurants} />

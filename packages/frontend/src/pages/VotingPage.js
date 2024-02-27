@@ -10,47 +10,52 @@ export default function VotingPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 
-	const coopName = params.coop_name;
+	const coopName = params.coopName;
 	const chick = localStorage.getItem("chickName");
 
-	function getRestaurant() {
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote`)
+	function getFirstEgg() {
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setEgg(data.egg);
+			})
+			.catch((error) => console.error("Error:", error));
+	}
+
+	useEffect(getFirstEgg, [chick, coopName, navigate]);
+
+	function handleVote(vote) {
+		let body;
+		// if its the first time, we don't send a vote
+		if (egg && vote !== null) {
+			egg.vote = vote;
+			body = JSON.stringify({ egg: egg });
+		}
+
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: body,
+		})
 			.then((response) => {
 				if (response.status === 204) {
-					navigate(`/flock/${coopName}/winner/`);
+					navigate(`/flock/${coopName}/winner/`)
+				} else {
+					return response;
 				}
-				return response;
 			})
 			.then((response) => response.json())
 			.then((data) => {
 				setEgg(data.egg);
 			})
-			.catch((error) => {
-				console.error("Error getting restaurant", error);
-			});
-	}
-
-	useEffect(getRestaurant, [chick, coopName, navigate]);
-
-	async function sendVote(vote) {
-		egg.vote = vote;
-
-		await fetch(`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ egg: egg }),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-			})
-			.catch((error) => {
-				console.error("Error sending vote", error);
-			});
-
-		getRestaurant();
+			.catch((error) => console.error("Error sending vote", error));
 	}
 
 	return (
@@ -59,8 +64,8 @@ export default function VotingPage() {
 				<div className="flex flex-col space-y-normal justify-center w-5/6">
 					<FullWidthText>{egg.title}</FullWidthText>
 					<div className="flex items-center justify-between">
-						<NoButton buttonText="<-- No" onClick={() => sendVote(-1)} />
-						<YesButton buttonText="Yes -->" onClick={() => sendVote(1)} />
+						<NoButton buttonText="<-- No" onClick={() => handleVote(-1)} />
+						<YesButton buttonText="Yes -->" onClick={() => handleVote(1)} />
 					</div>
 				</div>
 			) : (

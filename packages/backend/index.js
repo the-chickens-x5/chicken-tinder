@@ -68,7 +68,7 @@ app.get("/flocks/:code/chicks", (req, res) => {
 	res.send(`Chicks of flock ${req.params.code}`);
 });
 
-app.post("/flocks/:coop_name/basket/:title", async (req, res) => {
+app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	try {
 		const egg = await createEgg(req.params.coopName, req.params.title);
 		res.status(201).send(egg);
@@ -82,21 +82,44 @@ app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 
-app.get("/flocks/:coop_name/:chick/vote", async (req, res) => {
-	console.log(`GET /flocks/${req.params.coop_name}/${req.params.chick}/vote`);
-	const coopName = req.params.coop_name;
+app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
+	const coopName = req.params.coopName;
 	const chickName = req.params.chick;
+	const egg = req.body.egg;
 
 	// check if flock and chick exists
 	const flock = await findFlockByCode(coopName);
+	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!flock) {
 		res.status(404).send({ message: "Flock not found" });
 		return;
 	}
-	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!chick) {
 		res.status(404).send({ message: "Chick not found" });
 		return;
+	}
+
+	// handle the incoming vote
+	let voteStatus;
+	if (!egg) {
+		voteStatus = "no vote";
+	} else {
+		if (chick.preferences.some((pref) => pref.egg === egg._id)) {
+			voteStatus = "duplicate";
+		} else {
+			// add vote to chick's preferences
+			chick.preferences.push({ egg: egg._id, vote: egg.vote });
+
+			// add vote to running total
+			if (egg.vote === 1) {
+				flock.basket.id(egg._id).yesVotes++;
+			} else if (egg.vote === -1) {
+				flock.basket.id(egg._id).noVotes++;
+			}
+
+			flock.save();
+			voteStatus = "received";
+		}
 	}
 
 	// get a restaurant that hasn't been voted on yet
@@ -104,7 +127,6 @@ app.get("/flocks/:coop_name/:chick/vote", async (req, res) => {
 	const remainingOptions = flock.basket.filter(
 		(egg) => !existingVotes.includes(egg._id.toString())
 	);
-	// console.log("remainingOptions", remainingOptions);
 
 	if (remainingOptions.length === 0) {
 		res.status(204).send();
@@ -112,53 +134,12 @@ app.get("/flocks/:coop_name/:chick/vote", async (req, res) => {
 	}
 
 	// return a random restaurant
-	const egg = {
+	const newEgg = {
 		_id: remainingOptions[0]._id,
 		title: remainingOptions[0].title,
 	};
 
-	res.send({ egg: egg });
-});
-
-app.post("/flocks/:coop_name/:chick/vote", async (req, res) => {
-	const coopName = req.params.coop_name;
-	const chickName = req.params.chick;
-	const egg = req.body.egg;
-
-	// check if flock and chick exists 
-	const flock = await findFlockByCode(coopName);
-	if (!flock) {
-		res.status(404).send({ message: "Flock not found" });
-		return;
-	}
-	const chick = flock.chicks.find((chick) => chick.name === chickName);
-	if (!chick) {
-		res.status(404).send({ message: "Chick not found" });
-		return;
-	}
-
-	// check if the chick has already voted
-	const oldPreference = chick.preferences.find((preference) => preference.egg === egg._id);
-	if (oldPreference) {
-		res.status(400).send({ message: "Already voted" });
-	}
-
-	const preference = {
-		egg: egg._id,
-		vote: egg.vote,
-	};
-
-	if (preference.vote === 1) {
-		flock.basket.id(egg._id).yesVotes++;
-	} else if (preference.vote === -1) {
-		flock.basket.id(egg._id).noVotes++;
-	}
-	chick.preferences.push(preference);
-
-	// push to db
-	await flock.save();
-
-	res.status(201).send({ message: "Vote received" });
+	res.send({ voteStatus: voteStatus, egg: newEgg });
 });
 
 app.get("/flocks/:code/decision", (req, res) => {

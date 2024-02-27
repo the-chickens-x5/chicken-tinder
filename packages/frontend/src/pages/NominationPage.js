@@ -13,7 +13,7 @@ export default function NominationPage() {
 
 	async function postEggs(title) {
 		const result = await fetch(
-			`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${title}`,
+			`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/${title}`,
 			{ method: "POST" }
 		);
 		if (result.ok) {
@@ -23,11 +23,11 @@ export default function NominationPage() {
 	}
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/`)
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`)
 			.then((response) => response.json())
 			.then((data) => setRestaurants(data))
 			.catch((error) => console.error("Error:", error));
-	}, [params.coop_name]);
+	}, [params.coopName]);
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
@@ -40,11 +40,10 @@ export default function NominationPage() {
 				}}
 			/>
 			<BigText>The Basket</BigText>
+			<Table rows={restaurants} />
 			<SmallButton
 				buttonText="let's go -->"
-				onClick={() => {
-					navigate(`/flock/${params.coop_name}/voting`);
-				}}
+				onClick={() => navigate(`/flock/${params.coopName}/voting/`)}
 			/>
 		</div>
 	);

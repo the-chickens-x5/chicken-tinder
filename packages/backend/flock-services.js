@@ -54,7 +54,7 @@ async function addChickToFlock(coopName, chickName) {
 	}
 
 	flock.chicks.push({ name: chickName, votes: [] });
-	await Flock.findOneAndReplace({ coopName: coopName }, flock);
+	await flock.save();
 	return chickName;
 }
 

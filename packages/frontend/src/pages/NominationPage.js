@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
-import { useParams } from "react-router";
 import Table from "../components/Table";
 
 export default function NominationPage() {
 	const params = useParams();
+	const navigate = useNavigate();
 	const [restaurants, setRestaurants] = useState([]);
 
 	async function postEggs(title) {
@@ -39,8 +40,12 @@ export default function NominationPage() {
 				}}
 			/>
 			<BigText>The Basket</BigText>
-			<Table rows={restaurants} />
-			<SmallButton buttonText="let's go -->" />
+			<SmallButton
+				buttonText="let's go -->"
+				onClick={() => {
+					navigate(`/flock/${params.coop_name}/voting`);
+				}}
+			/>
 		</div>
 	);
 }

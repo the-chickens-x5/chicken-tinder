@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { findFlockByCode, createFlock, addChickToFlock } from "./flock-services.js";
 import getWinningRestaurant from "./decision.js";
+import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 
 const app = express();
 const port = 8000;
@@ -57,8 +57,14 @@ app.post("/flocks/:code/votes", (req, res) => {
 	res.send(`Vote added to flock ${req.params.code}`);
 });
 
-app.post("/flocks/:code/basket", (req, res) => {
-	res.send(`Options added to flock ${req.params.code}`);
+app.post("/flocks/:coop_name/basket/:title", async (req, res) => {
+	try {
+		const egg = await createEgg(req.params.coop_name, req.params.title);
+		res.status(201).send(egg);
+	} catch (e) {
+		console.error(e);
+		res.status(500).send("Failed to create egg");
+	}
 });
 
 app.get("/flocks/:code/basket", (req, res) => {

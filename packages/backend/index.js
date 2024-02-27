@@ -133,9 +133,10 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	}
 
 	// return a random restaurant
+	const randomIndex = Math.floor(Math.random() * remainingOptions.length);
 	const newEgg = {
-		_id: remainingOptions[0]._id,
-		title: remainingOptions[0].title,
+		_id: remainingOptions[randomIndex]._id,
+		title: remainingOptions[randomIndex].title,
 	};
 
 	res.send({ voteStatus: voteStatus, egg: newEgg });

@@ -47,17 +47,10 @@ app.delete("/flocks/:code", (req, res) => {
 });
 
 app.get("/flocks/:code/chicks", async (req, res) => {
-    const flockCode = req.params.code;
-    const flock = await findFlockByCode(flockCode);
-
-    if (!flock) {
-        res.status(404).send('Flock not found');
-        return;
-    }
-
-    // Return the list of chicks in the flock as JSON
-    res.json(flock.chicks);
-
+    console.log(`GET /flocks/${req.params.code}`);
+    findFlockByCode(req.params.code).then((flock) => {
+        res.json(flock.chicks);
+    });
 });
 
 app.post("/flocks/:code/votes", (req, res) => {

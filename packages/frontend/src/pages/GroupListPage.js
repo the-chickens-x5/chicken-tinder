@@ -14,7 +14,7 @@ export default function GroupListPage() {
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/chicks/`)
-            .then((response) => console.log(response) || response.json())
+            .then((response) => response.json())
             .then((data) => setFlock(data))
             .catch((error) => console.error("Error:", error));
     }, [params.coop_name]);

@@ -4,10 +4,12 @@ const preferenceSchema = new mongoose.Schema({
 	egg: {
 		type: mongoose.ObjectId, // reference to an egg
 		required: true,
+		unique: true,
 	},
 	vote: {
 		type: Number, // 1 for up, -1 for down
 		required: true,
+		default: 0,
 	},
 });
 
@@ -16,6 +18,7 @@ const chickSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
+		unique: true,
 	},
 	preferences: [preferenceSchema],
 });
@@ -25,11 +28,18 @@ const eggSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
+		unique: true,
 	},
-	votes: {
+	yesVotes: {
 		type: Number,
 		required: true,
+		default: 0,
 	},
+	noVotes: {
+		type: Number,
+		required: true,
+		default: 0,
+	}
 });
 
 const flockSchema = new mongoose.Schema(
@@ -41,16 +51,10 @@ const flockSchema = new mongoose.Schema(
 			trim: true,
 			unique: true,
 		},
-		chicks: {
-			type: [chickSchema],
-			required: true,
-		},
-		basket: {
-			type: [eggSchema],
-			required: true,
-		},
+		chicks: [chickSchema],
+		basket: [eggSchema],
 	},
-	{ collection: "flocks" }
+	{ collection: "flocks", timestamps: true }
 );
 
 const Flock = mongoose.model("Flock", flockSchema);

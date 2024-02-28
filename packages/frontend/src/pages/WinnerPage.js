@@ -9,20 +9,16 @@ export default function WinnerPage() {
 	const [winningRestaurant, setWinner] = useState("");
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/decision`)
-			.then((response) => {
-				if (response.status === 404) {
-					return { winner: null };
-				} else {
-					return response.json();
-				}
-			})
-			.then((data) => {
+		async function getWinner() {
+			const response = await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/decision`);
+			if (response.status === 404) {
+				setWinner(null);
+			} else {
+				const data = await response.json();
 				setWinner(data.winner);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			}
+		}
+		getWinner();
 	}, [params.coopName]);
 
 	return (

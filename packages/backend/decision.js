@@ -1,7 +1,7 @@
 import { findFlockByCode } from "./flock-services.js";
 
-async function getWinningRestaurant(coop_name) {
-	let flock = await findFlockByCode(coop_name);
+async function getWinningRestaurant(coopName) {
+	let flock = await findFlockByCode(coopName);
 
 	let bestRestaurant = null;
 	let highestYesVotes = -Infinity;

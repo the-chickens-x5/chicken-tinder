@@ -89,9 +89,13 @@ app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 
-app.get("/flocks/:coop_name/decision", (req, res) => {
-	console.log(`GET /flocks/${req.params.coop_name}/decision`);
-	const restaurantName = getWinningRestaurant(req.params.coop_name);
+app.get("/flocks/:coopName/decision", async (req, res) => {
+	console.log(`GET /flocks/${req.params.coopName}/decision`);
+	const restaurantName = await getWinningRestaurant(req.params.coopName);
+	if (!restaurantName) {
+		res.status(404).send({ message: "Decision not available" });
+		return;
+	}
 	res.send({ winner: restaurantName });
 });
 

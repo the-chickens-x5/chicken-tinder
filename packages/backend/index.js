@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import getWinningRestaurant from "./decision.js";
 import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
@@ -81,6 +82,15 @@ app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 
+app.get("/flocks/:coopName/decision", async (req, res) => {
+	const restaurantName = await getWinningRestaurant(req.params.coopName);
+	if (!restaurantName) {
+		res.status(404).send({ message: "Decision not available" });
+		return;
+	}
+	res.send({ winner: restaurantName });
+});
+
 app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	const coopName = req.params.coopName;
 	const chickName = req.params.chick;
@@ -140,10 +150,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	};
 
 	res.send({ voteStatus: voteStatus, egg: newEgg });
-});
-
-app.get("/flocks/:code/decision", (req, res) => {
-	res.send(`Decision of flock ${req.params.code}`);
 });
 
 server.listen(port, () => {

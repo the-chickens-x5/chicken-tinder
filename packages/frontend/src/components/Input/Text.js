@@ -38,11 +38,11 @@ export function BigText(props) {
  */
 export function CombinedText(props) {
 	return (
-	  	<div className="items-center w-full bg-secondary text-gray_text rounded-normal">
+		<div className="items-center w-full bg-secondary text-gray_text rounded-normal">
 			<div className="flex justify-center">
 				<h2 className="p-4 pt-8 text-medium font-bold">{props.title}</h2>
 			</div>
 			<div className="justify-start pt-0 pl-24 pr-12 pb-12 text-normal">{props.children}</div>
-	  	</div>
+		</div>
 	);
-  }
+}

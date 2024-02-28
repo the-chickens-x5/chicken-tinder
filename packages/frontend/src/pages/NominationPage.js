@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
-import { useParams, useNavigate } from "react-router";
 import Table from "../components/Table";
 
 export default function NominationPage() {
-	const navigate = useNavigate();
 	const params = useParams();
+	const navigate = useNavigate();
 	const [restaurants, setRestaurants] = useState([]);
 
 	async function postEggs(title) {

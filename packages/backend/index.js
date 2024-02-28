@@ -83,7 +83,6 @@ app.get("/flocks/:code/basket", (req, res) => {
 });
 
 app.get("/flocks/:coopName/decision", async (req, res) => {
-	console.log(`GET /flocks/${req.params.coopName}/decision`);
 	const restaurantName = await getWinningRestaurant(req.params.coopName);
 	if (!restaurantName) {
 		res.status(404).send({ message: "Decision not available" });

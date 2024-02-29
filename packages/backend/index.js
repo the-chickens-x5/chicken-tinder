@@ -152,6 +152,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	res.send({ voteStatus: voteStatus, egg: newEgg });
 });
 
-server.listen(port, () => {
+server.listen(process.env.PORT || port, () => {
 	console.log(`Server listening at http://localhost:${port}`);
 });

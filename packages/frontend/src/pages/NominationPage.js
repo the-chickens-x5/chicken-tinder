@@ -7,15 +7,14 @@ import { SmallButton } from "../components/Input/Buttons";
 import Table from "../components/Table";
 import toast from "react-hot-toast";
 
-
 export default function NominationPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const [restaurants, setRestaurants] = useState([]);
 
-	function giveError(){
+	function giveError() {
 		toast.success("Restaurant already added", {
-			position: "bottom-right"
+			position: "bottom-right",
 		});
 	}
 
@@ -29,7 +28,7 @@ export default function NominationPage() {
 			return result;
 		}
 		giveError();
-		return false;		
+		return false;
 	}
 
 	useEffect(() => {

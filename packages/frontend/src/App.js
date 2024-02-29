@@ -18,12 +18,12 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<WelcomePage />} />
 					<Route path="/about" element={<div>About</div>} />
-					<Route path="/flock/:coop_name/lobby/" element={<GroupListPage />} />
-					<Route path="/flock/:coop_name/nominations/" element={<NominationPage />} />
-					<Route path="/flock/:coop_name/voting/" element={<VotingPage />} />
-					<Route path="/flock/:coop_name/loading/" element={<LoadingPage />} />
-					<Route path="/flock/:coop_name/winner/" element={<WinnerPage />} />
-					<Route path="/flock/:coop_name/join/" element={<NameFormPage />} />
+					<Route path="/flock/:coopName/lobby/" element={<GroupListPage />} />
+					<Route path="/flock/:coopName/nominations/" element={<NominationPage />} />
+					<Route path="/flock/:coopName/voting/" element={<VotingPage />} />
+					<Route path="/flock/:coopName/loading/" element={<LoadingPage />} />
+					<Route path="/flock/:coopName/winner/" element={<WinnerPage />} />
+					<Route path="/flock/:coopName/join/" element={<NameFormPage />} />
 				</Routes>
 				<Toaster />
 			</div>

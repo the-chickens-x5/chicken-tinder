@@ -3,11 +3,11 @@ import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
-import { useParams, useNavigate } from "react-router";
 import Table from "../components/Table";
 import CoopContext from "../context/coop-context";
 
 export default function NominationPage() {
+	const params = useParams();
 	const navigate = useNavigate();
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
@@ -15,7 +15,7 @@ export default function NominationPage() {
 
 	async function postEggs(title) {
 		const result = await fetch(
-			`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/${title}`,
+			`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/${title}`,
 			{ method: "POST" }
 		);
 		if (result.ok) {
@@ -25,7 +25,7 @@ export default function NominationPage() {
 	}
 
 	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/basket/`)
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`)
 			.then((response) => response.json())
 			.then((data) => setRestaurants(data))
 			.catch((error) => console.error("Error:", error));
@@ -53,7 +53,7 @@ export default function NominationPage() {
 			<Table rows={restaurants} />
 			<SmallButton
 				buttonText="let's go -->"
-				onClick={() => navigate(`/flock/${params.coop_name}/voting/`)}
+				onClick={() => navigate(`/flock/${params.coopName}/voting/`)}
 			/>
 		</div>
 	);

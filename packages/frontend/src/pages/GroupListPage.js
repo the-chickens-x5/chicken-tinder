@@ -29,8 +29,8 @@ export default function GroupListPage() {
 	}
 
 	useEffect(() => {
-		coopContext.connectToFlock(params.coop_name);
-	}, [params.coop_name]);
+		coopContext.connectToFlock(params.coopName);
+	}, [params.coopName]);
 
 	useEffect(() => {
 		console.log(coopContext.messages);
@@ -38,9 +38,9 @@ export default function GroupListPage() {
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
-			<FullWidthText>Coop Name: {params.coop_name}</FullWidthText>
+			<FullWidthText>Coop Name: {params.coopName}</FullWidthText>
 			<TextButtonInput
-				value={`http://localhost:3000/flock/${params.coop_name}/join/`}
+				value={`http://localhost:3000/flock/${params.coopName}/join/`}
 				buttonText="copy invite link"
 				onClick={copyToClipboardAndNotify}
 				textDisabled={true}

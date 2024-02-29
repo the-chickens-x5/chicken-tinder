@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import getWinningRestaurant from "./decision.js";
 import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
@@ -42,7 +43,6 @@ app.post("/flocks", async (req, res) => {
 });
 
 app.get("/flocks/:code", (req, res) => {
-	console.log(`GET /flocks/${req.params.code}`);
 	findFlockByCode(req.params.code).then((flock) => {
 		res.send(flock);
 	});
@@ -68,12 +68,6 @@ app.get("/flocks/:code/chicks", (req, res) => {
 	res.send(`Chicks of flock ${req.params.code}`);
 });
 
-app.post("/flocks/:code/votes", (req, res) => {
-	// body should contain the relevant info
-	// (member, egg, vote direction)
-	res.send(`Vote added to flock ${req.params.code}`);
-});
-
 app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	try {
 		const egg = await createEgg(req.params.coopName, req.params.title);
@@ -88,8 +82,74 @@ app.get("/flocks/:code/basket", (req, res) => {
 	res.send(`Options of flock ${req.params.code}`);
 });
 
-app.get("/flocks/:code/decision", (req, res) => {
-	res.send(`Decision of flock ${req.params.code}`);
+app.get("/flocks/:coopName/decision", async (req, res) => {
+	const restaurantName = await getWinningRestaurant(req.params.coopName);
+	if (!restaurantName) {
+		res.status(404).send({ message: "Decision not available" });
+		return;
+	}
+	res.send({ winner: restaurantName });
+});
+
+app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
+	const coopName = req.params.coopName;
+	const chickName = req.params.chick;
+	const egg = req.body.egg;
+
+	// check if flock and chick exists
+	const flock = await findFlockByCode(coopName);
+	const chick = flock.chicks.find((chick) => chick.name === chickName);
+	if (!flock) {
+		res.status(404).send({ message: "Flock not found" });
+		return;
+	}
+	if (!chick) {
+		res.status(404).send({ message: "Chick not found" });
+		return;
+	}
+
+	// handle the incoming vote
+	let voteStatus;
+	if (!egg) {
+		voteStatus = "no vote";
+	} else {
+		if (chick.preferences.some((pref) => pref.egg === egg._id)) {
+			voteStatus = "duplicate";
+		} else {
+			// add vote to chick's preferences
+			chick.preferences.push({ egg: egg._id, vote: egg.vote });
+
+			// add vote to running total
+			if (egg.vote === 1) {
+				flock.basket.id(egg._id).yesVotes++;
+			} else if (egg.vote === -1) {
+				flock.basket.id(egg._id).noVotes++;
+			}
+
+			flock.save();
+			voteStatus = "received";
+		}
+	}
+
+	// get a restaurant that hasn't been voted on yet
+	const existingVotes = chick.preferences.map((preference) => preference.egg.toString());
+	const remainingOptions = flock.basket.filter(
+		(egg) => !existingVotes.includes(egg._id.toString())
+	);
+
+	if (remainingOptions.length === 0) {
+		res.status(204).send();
+		return;
+	}
+
+	// return a random restaurant
+	const randomIndex = Math.floor(Math.random() * remainingOptions.length);
+	const newEgg = {
+		_id: remainingOptions[randomIndex]._id,
+		title: remainingOptions[randomIndex].title,
+	};
+
+	res.send({ voteStatus: voteStatus, egg: newEgg });
 });
 
 server.listen(port, () => {

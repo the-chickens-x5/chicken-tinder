@@ -66,10 +66,13 @@ app.delete("/flocks/:code", (req, res) => {
 
 app.get("/flocks/:code/chicks", async (req, res) => {
 	// console.log(`GET /flocks/${req.params.code}`);
-	findFlockByCode(req.params.code).then((flock) => {
+	try {
+		const flock = await findFlockByCode(req.params.code);
 		const chickNames = flock.chicks.map((chick) => chick.name);
 		res.json(chickNames);
-	});
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching chicks" });
+	}
 });
 
 app.post("/flocks/:coopName/basket/:title", async (req, res) => {
@@ -82,12 +85,20 @@ app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	}
 });
 
-app.get("/flocks/:code/basket", (req, res) => {
+app.get("/flocks/:code/basket", async (req, res) => {
 	// console.log(`GET /flocks/${req.params.code}`);
-	findFlockByCode(req.params.code).then((flock) => {
+	// findFlockByCode(req.params.code).then((flock) => {
+	// 	const eggNames = flock.basket.map((egg) => egg.title);
+	// 	res.json(eggNames);
+	// });
+	try {
+		const flock = await findFlockByCode(req.params.code);
 		const eggNames = flock.basket.map((egg) => egg.title);
+		console.log(eggNames);
 		res.json(eggNames);
-	});
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching eggs" });
+	}
 });
 
 app.get("/flocks/:coopName/decision", async (req, res) => {

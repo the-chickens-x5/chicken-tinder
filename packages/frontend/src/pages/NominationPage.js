@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
@@ -9,7 +10,6 @@ import CoopContext from "../context/coop-context";
 export default function NominationPage() {
 	const params = useParams();
 	const navigate = useNavigate();
-	const params = useParams();
 	const coopContext = useContext(CoopContext);
 	const [restaurants, setRestaurants] = useState([]);
 

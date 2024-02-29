@@ -10,7 +10,9 @@ export default function WinnerPage() {
 
 	useEffect(() => {
 		async function getWinner() {
-			const response = await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/decision`);
+			const response = await fetch(
+				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/decision`
+			);
 			if (response.status === 404) {
 				setWinner(null);
 			} else {

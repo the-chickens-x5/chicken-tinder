@@ -19,7 +19,6 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<TutorialPage />} />
 					<Route exact path="/welcome" element={<WelcomePage />} />
-					<Route path="/about" element={<div>About</div>} />
 					<Route path="/flock/:coopName/lobby/" element={<GroupListPage />} />
 					<Route path="/flock/:coopName/nominations/" element={<NominationPage />} />
 					<Route path="/flock/:coopName/voting/" element={<VotingPage />} />

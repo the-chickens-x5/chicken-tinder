@@ -23,7 +23,7 @@ export default function VotingPage() {
 		})
 			.then((response) => {
 				if (response.status === 204) {
-					navigate(`/flock/${coopName}/winner/`)
+					navigate(`/flock/${coopName}/winner/`);
 				} else {
 					return response.json();
 				}

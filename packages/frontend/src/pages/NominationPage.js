@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { useParams, useNavigate } from "react-router";
 import Table from "../components/Table";
+import CoopContext from "../context/coop-context";
 
 export default function NominationPage() {
 	const navigate = useNavigate();
 	const params = useParams();
+    const coopContext = useContext(CoopContext);
 	const [restaurants, setRestaurants] = useState([]);
 
 	async function postEggs(title) {
@@ -29,6 +31,14 @@ export default function NominationPage() {
 			.catch((error) => console.error("Error:", error));
 	}, [params.coop_name]);
 
+    useEffect(() => {
+        coopContext.connectToFlock(params.coop_name);
+    }, [params.coop_name]);
+
+    useEffect(() => {
+        console.log(coopContext.messages);
+    }, [coopContext.messages]);
+
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Put your eggs in the basket</FullWidthText>
@@ -41,8 +51,8 @@ export default function NominationPage() {
 			/>
 			<BigText>The Basket</BigText>
 			<Table rows={restaurants} />
-			<SmallButton 
-				buttonText="let's go -->" 
+			<SmallButton
+				buttonText="let's go -->"
 				onClick={() => navigate(`/flock/${params.coop_name}/voting/`)}
 			/>
 		</div>

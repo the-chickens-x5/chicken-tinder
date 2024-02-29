@@ -67,7 +67,8 @@ app.delete("/flocks/:code", (req, res) => {
 app.get("/flocks/:code/chicks", async (req, res) => {
     console.log(`GET /flocks/${req.params.code}`);
     findFlockByCode(req.params.code).then((flock) => {
-        res.json(flock.chicks);
+        const chickNames = flock.chicks.map(chick => chick.name);
+        res.json(chickNames);
     });
 });
 
@@ -88,7 +89,11 @@ app.post("/flocks/:coop_name/basket/:title", async (req, res) => {
 });
 
 app.get("/flocks/:code/basket", (req, res) => {
-	res.send(`Options of flock ${req.params.code}`);
+    console.log(`GET /flocks/${req.params.code}`);
+    findFlockByCode(req.params.code).then((flock) => {
+        const eggNames = flock.basket.map(egg => egg.title);
+        res.json(eggNames);
+    });
 });
 
 app.get("/flocks/:code/decision", (req, res) => {

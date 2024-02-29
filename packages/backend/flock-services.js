@@ -26,9 +26,9 @@ async function createFlock() {
 	return flock.save();
 }
 /**
- * 
- * @param {String} code 
- * @param {String} title 
+ *
+ * @param {String} code
+ * @param {String} title
  * @returns restaurant name that has been added, null if already exists
  */
 async function createEgg(code, title) {

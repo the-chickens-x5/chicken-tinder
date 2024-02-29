@@ -12,14 +12,14 @@ export default function GroupListPage() {
 	const navigate = useNavigate();
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
-    const [flock, setFlock] = useState([]);
+	const [flock, setFlock] = useState([]);
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/chicks/`)
-            .then((response) => response.json())
-            .then((data) => setFlock(data))
-            .catch((error) => console.error("Error:", error));
-    }, [params.coop_name]);
+	useEffect(() => {
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coop_name}/chicks/`)
+			.then((response) => response.json())
+			.then((data) => setFlock(data))
+			.catch((error) => console.error("Error:", error));
+	}, [params.coop_name]);
 
 	function copyToClipboardAndNotify(input) {
 		navigator.clipboard.writeText(input);
@@ -46,7 +46,7 @@ export default function GroupListPage() {
 				textDisabled={true}
 			/>
 			<BigText>My Flock</BigText>
-            <Table rows={flock} />
+			<Table rows={flock} />
 			<SmallButton
 				buttonText="let's go -->"
 				onClick={() => navigate(`/flock/${params.coop_name}/nominations`)}

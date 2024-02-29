@@ -10,7 +10,7 @@ import CoopContext from "../context/coop-context";
 export default function NominationPage() {
 	const navigate = useNavigate();
 	const params = useParams();
-    const coopContext = useContext(CoopContext);
+	const coopContext = useContext(CoopContext);
 	const [restaurants, setRestaurants] = useState([]);
 
 	async function postEggs(title) {
@@ -31,13 +31,13 @@ export default function NominationPage() {
 			.catch((error) => console.error("Error:", error));
 	}, [params.coop_name]);
 
-    useEffect(() => {
-        coopContext.connectToFlock(params.coop_name);
-    }, [params.coop_name]);
+	useEffect(() => {
+		coopContext.connectToFlock(params.coop_name);
+	}, [params.coop_name]);
 
-    useEffect(() => {
-        console.log(coopContext.messages);
-    }, [coopContext.messages]);
+	useEffect(() => {
+		console.log(coopContext.messages);
+	}, [coopContext.messages]);
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">

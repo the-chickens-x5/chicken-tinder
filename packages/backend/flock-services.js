@@ -36,10 +36,9 @@ async function createEgg(code, title) {
 	if (flock.basket.some((egg) => egg.title === title)) {
 		return null;
 	}
-	else{
-		flock.basket.push(egg);
-		await flock.save();
-	}
+	flock.basket.push(egg);
+	await flock.save();
+
 	return egg;
 }
 

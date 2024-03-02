@@ -19,5 +19,8 @@
 	"dependencies": {
 		"eslint": "^8.57.0",
 		"prettier": "^3.2.5"
+	},
+	"devDependencies": {
+		"eslint-plugin-react": "^7.33.2"
 	}
 }

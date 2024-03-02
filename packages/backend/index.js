@@ -5,6 +5,9 @@ import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./floc
 import http from "http";
 import { Server } from "socket.io";
 import process from "process";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);

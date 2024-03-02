@@ -5,14 +5,17 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\"",
-		"dev": "env-cmd -f ./config/.env nodemon src/index.js",
-		"start": "env-cmd -f ./config/.env node src/index.js"
+		"dev": "nodemon index.js",
+		"start": "node index.js"
 	},
 	"type": "module",
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"env-cmd": "^10.1.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.18.3",
+		"mongoose": "^8.2.0",
 		"socket.io": "^4.7.4"
 	}
 }

@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\"",
 		"dev": "env-cmd -f ./config/.env nodemon src/index.js",
-		"start": "env-cmd -f ./config/.env node src/index.js"
+		"start": "env-cmd -f ./config/.env node index.js"
 	},
 	"type": "module",
 	"author": "",

@@ -6,6 +6,7 @@ import LoadingPage from "./LoadingPage";
 
 export default function VotingPage() {
 	const [egg, setEgg] = useState(null);
+	const [gifUrl, setGifUrl] = useState(null);
 
 	const params = useParams();
 	const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function VotingPage() {
 			.then((data) => {
 				if (data) {
 					setEgg(data.egg);
+					setGifUrl(data.gifUrl);
 				}
 			})
 			.catch((error) => console.error("Error:", error));
@@ -48,10 +50,13 @@ export default function VotingPage() {
 	return (
 		<>
 			{egg ? (
-				<div className="flex flex-col space-y-normal justify-center w-5/6">
+				<div className="flex flex-col space-y-normal justify-center w-5/6 h-[550px]">
 					<FullWidthText>{egg.title}</FullWidthText>
-					<div className="flex items-center justify-between">
+					<div className="flex flex-row justify-between h-full">
 						<NoButton buttonText="<-- No" onClick={() => handleVote(-1)} />
+						<div className="flex flex-col space-y-normal justify-center w-full">
+							{gifUrl && <img className="rounded-normal" src={gifUrl} alt="gif" />}
+						</div>
 						<YesButton buttonText="Yes -->" onClick={() => handleVote(1)} />
 					</div>
 				</div>

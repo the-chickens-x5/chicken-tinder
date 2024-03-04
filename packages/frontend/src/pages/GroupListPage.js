@@ -21,7 +21,7 @@ export default function GroupListPage() {
 
 	useEffect(() => {
 		coopContext.connectToFlock(params.coopName);
-	}, [params.coopName, coopContext]);
+	}, [params.coopName]);
 
 	useEffect(() => {
 		console.log(coopContext.messages);

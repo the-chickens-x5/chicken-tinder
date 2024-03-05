@@ -6,6 +6,7 @@ import { BigText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import Table from "../components/Table";
 import CoopContext from "../context/coop-context";
+import toast from "react-hot-toast";
 
 export default function NominationPage() {
 	const params = useParams();
@@ -13,15 +14,23 @@ export default function NominationPage() {
 	const coopContext = useContext(CoopContext);
 	const [restaurants, setRestaurants] = useState([]);
 
+	function giveError() {
+		toast.success("Restaurant already added", {
+			position: "bottom-right",
+		});
+	}
+
 	async function postEggs(title) {
 		const result = await fetch(
 			`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/${title}`,
 			{ method: "POST" }
 		);
-		if (result.ok) {
+		if (result.status === 201) {
 			setRestaurants((prevRestaurants) => [...prevRestaurants, title]);
+			return result;
 		}
-		return result;
+		giveError();
+		return false;
 	}
 
 	useEffect(() => {

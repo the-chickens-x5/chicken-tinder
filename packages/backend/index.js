@@ -83,7 +83,11 @@ app.get("/flocks/:code/chicks", async (req, res) => {
 app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	try {
 		const egg = await createEgg(req.params.coopName, req.params.title);
-		res.status(201).send(egg);
+		if (!egg) {
+			res.status(409).send({ message: "egg already exists" });
+		} else {
+			res.status(201).send(egg);
+		}
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to create egg");

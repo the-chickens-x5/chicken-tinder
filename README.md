@@ -4,6 +4,10 @@ This is the monorepo for Chicken Tinder.
 
 Product Vision: For friend groups who can’t decide where to eat in a timely manner, Chicken Tinder is a web app that collects food preferences within groups and picks a restaurant catered to the group’s preferences. Unlike Yelp, our product enables collaboration within customizable groups of users.
 
+The deployed app can be viewed at: https://thechickens.netlify.app
+
+And the backend can be accessed from: https://chickentinder-backend.azurewebsites.net/
+
 ## Artifacts
 
 UI prototypes and designs are located in Figma (last updated 2/27/24):

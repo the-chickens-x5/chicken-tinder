@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import LoadingPage from "./LoadingPage";
-import CoopContext from "../context/coop-context";
 
 export default function NameFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
-	const coopContext = useContext(CoopContext);
 
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {

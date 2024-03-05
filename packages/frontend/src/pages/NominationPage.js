@@ -42,7 +42,7 @@ export default function NominationPage() {
 
 	useEffect(() => {
 		coopContext.connectToFlock(params.coopName);
-	}, [params.coopName]);
+	});
 
 	useEffect(() => {
 		console.log(coopContext.messages);

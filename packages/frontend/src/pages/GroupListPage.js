@@ -30,7 +30,7 @@ export default function GroupListPage() {
 
 	useEffect(() => {
 		coopContext.connectToFlock(params.coopName);
-	}, [params.coopName]);
+	});
 
 	useEffect(() => {
 		console.log(coopContext.messages);

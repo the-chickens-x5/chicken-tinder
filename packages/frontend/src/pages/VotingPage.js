@@ -48,12 +48,12 @@ export default function VotingPage() {
 	}
 
 	useEffect(() => {
-        const timer = setTimeout(() => {
-            handleVote(0);
-        }, 5000);
+		const timer = setTimeout(() => {
+			handleVote(0);
+		}, 5000);
 
-        return () => clearTimeout(timer);
-    }, [handleVote]);
+		return () => clearTimeout(timer);
+	}, [handleVote]);
 
 	return (
 		<>

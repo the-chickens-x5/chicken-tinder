@@ -5,6 +5,7 @@ import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./floc
 import http from "http";
 import { Server } from "socket.io";
 import process from "process";
+import { getTenorGIF } from "./services/tenor.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -100,7 +101,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	const chickName = req.params.chick;
 	const egg = req.body.egg;
 
-	// check if flock and chick exists
 	const flock = await findFlockByCode(coopName);
 	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!flock) {
@@ -153,7 +153,9 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 		title: remainingOptions[randomIndex].title,
 	};
 
-	res.send({ voteStatus: voteStatus, egg: newEgg });
+	const gifUrl = await getTenorGIF(newEgg.title);
+
+	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 
 server.listen(process.env.PORT || port, () => {

@@ -1,11 +1,10 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FullWidthText, CombinedText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 
 export default function TutorialPage() {
 	const navigate = useNavigate();
-	const params = useParams();
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">

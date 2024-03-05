@@ -4,6 +4,11 @@ import getWinningRestaurant from "./decision.js";
 import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
+import process from "process";
+import { getTenorGIF } from "./services/tenor.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -64,22 +69,45 @@ app.delete("/flocks/:code", (req, res) => {
 	res.send(`Flock ${req.params.code} deleted`);
 });
 
-app.get("/flocks/:code/chicks", (req, res) => {
-	res.send(`Chicks of flock ${req.params.code}`);
+app.get("/flocks/:code/chicks", async (req, res) => {
+	// console.log(`GET /flocks/${req.params.code}`);
+	try {
+		const flock = await findFlockByCode(req.params.code);
+		const chickNames = flock.chicks.map((chick) => chick.name);
+		res.json(chickNames);
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching chicks" });
+	}
 });
 
 app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	try {
 		const egg = await createEgg(req.params.coopName, req.params.title);
-		res.status(201).send(egg);
+		if (!egg) {
+			res.status(409).send({ message: "egg already exists" });
+		} else {
+			res.status(201).send(egg);
+		}
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to create egg");
 	}
 });
 
-app.get("/flocks/:code/basket", (req, res) => {
-	res.send(`Options of flock ${req.params.code}`);
+app.get("/flocks/:code/basket", async (req, res) => {
+	// console.log(`GET /flocks/${req.params.code}`);
+	// findFlockByCode(req.params.code).then((flock) => {
+	// 	const eggNames = flock.basket.map((egg) => egg.title);
+	// 	res.json(eggNames);
+	// });
+	try {
+		const flock = await findFlockByCode(req.params.code);
+		const eggNames = flock.basket.map((egg) => egg.title);
+		console.log(eggNames);
+		res.json(eggNames);
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching eggs" });
+	}
 });
 
 app.get("/flocks/:coopName/decision", async (req, res) => {
@@ -96,7 +124,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	const chickName = req.params.chick;
 	const egg = req.body.egg;
 
-	// check if flock and chick exists
 	const flock = await findFlockByCode(coopName);
 	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!flock) {
@@ -149,9 +176,11 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 		title: remainingOptions[randomIndex].title,
 	};
 
-	res.send({ voteStatus: voteStatus, egg: newEgg });
+	const gifUrl = await getTenorGIF(newEgg.title);
+
+	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 
-server.listen(port, () => {
+server.listen(process.env.PORT || port, () => {
 	console.log(`Server listening at http://localhost:${port}`);
 });

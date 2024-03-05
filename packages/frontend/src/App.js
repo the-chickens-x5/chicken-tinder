@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
+import TutorialPage from "./pages/TutorialPage";
 import WelcomePage from "./pages/WelcomePage";
 import NameFormPage from "./pages/NameFormPage";
 import GroupListPage from "./pages/GroupListPage";
@@ -16,8 +17,8 @@ function App() {
 			<div className="flex flex-col space-y-normal w-full items-center">
 				<Header />
 				<Routes>
-					<Route exact path="/" element={<WelcomePage />} />
-					<Route path="/about" element={<div>About</div>} />
+					<Route exact path="/" element={<TutorialPage />} />
+					<Route exact path="/welcome" element={<WelcomePage />} />
 					<Route path="/flock/:coopName/lobby/" element={<GroupListPage />} />
 					<Route path="/flock/:coopName/nominations/" element={<NominationPage />} />
 					<Route path="/flock/:coopName/voting/" element={<VotingPage />} />

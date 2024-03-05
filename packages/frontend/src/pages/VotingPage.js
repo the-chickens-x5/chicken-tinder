@@ -47,6 +47,14 @@ export default function VotingPage() {
 		postVote(body);
 	}
 
+	useEffect(() => {
+        const timer = setTimeout(() => {
+            handleVote(0);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [handleVote]);
+
 	return (
 		<>
 			{egg ? (

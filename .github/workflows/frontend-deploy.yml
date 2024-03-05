@@ -27,7 +27,9 @@ jobs:
               run: |
                   npm install --workspaces=false
                   npm run test --if-present
-                  set CI=false && npm run build --if-present
+                  npm run build --if-present
+              env: 
+                  CI: true
               working-directory: packages/frontend
             # Deploy to Netlify using our production secrets
             - name: Deploy to netlify

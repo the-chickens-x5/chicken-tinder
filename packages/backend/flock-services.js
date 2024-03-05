@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import Flock from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const db_password = process.env.DB_PASSWORD;
 const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.net/?retryWrites=true&w=majority`;

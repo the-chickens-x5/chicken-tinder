@@ -4,6 +4,10 @@ import getWinningRestaurant from "./decision.js";
 import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
+import process from "process";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -171,6 +175,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	res.send({ voteStatus: voteStatus, egg: newEgg });
 });
 
-server.listen(port, () => {
+server.listen(process.env.PORT || port, () => {
 	console.log(`Server listening at http://localhost:${port}`);
 });

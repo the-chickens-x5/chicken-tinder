@@ -33,6 +33,8 @@ export function SmallButton(props) {
 	);
 }
 
+// TODO: Yes and no buttons shouldn't be distinct components, they are
+// only used once...
 /**
  * right-aligned button with white text
  * @param {string} props.buttonText - Text for the button
@@ -40,10 +42,10 @@ export function SmallButton(props) {
  */
 export function YesButton(props) {
 	return (
-		<div className="flex justify-end w-screen h-screen">
+		<div className="flex justify-end w-full h-full">
 			<button
 				onClick={(input) => props.onClick(input)}
-				className="bg-accent_red text-white p-4 rounded-normal text-medium w-95% h-1/2"
+				className="bg-accent_red text-white p-4 rounded-normal text-medium w-95%"
 			>
 				{props.buttonText}
 			</button>
@@ -58,10 +60,10 @@ export function YesButton(props) {
  */
 export function NoButton(props) {
 	return (
-		<div className="flex justify-start w-screen h-screen">
+		<div className="flex justify-start w-full h-full">
 			<button
 				onClick={(input) => props.onClick(input)}
-				className="bg-accent_yellow text-white p-4 rounded-normal text-medium w-95% h-1/2"
+				className="bg-accent_yellow text-white p-4 rounded-normal text-medium w-95%"
 			>
 				{props.buttonText}
 			</button>

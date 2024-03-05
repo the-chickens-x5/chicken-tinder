@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import Flock from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const db_password = process.env.DB_PASSWORD;
 const url = `mongodb+srv://shareduser:${db_password}@ctcluster0.6s3myd5.mongodb.net/?retryWrites=true&w=majority`;
@@ -26,6 +29,7 @@ async function createFlock() {
 	return flock.save();
 }
 /**
+ *
  * @param {String} code
  * @param {String} title
  * @returns restaurant name that has been added, null if already exists
@@ -33,8 +37,12 @@ async function createFlock() {
 async function createEgg(code, title) {
 	const flock = await findFlockByCode(code);
 	const egg = { title: title };
+	if (flock.basket.some((egg) => egg.title === title)) {
+		return null;
+	}
 	flock.basket.push(egg);
 	await flock.save();
+
 	return egg;
 }
 

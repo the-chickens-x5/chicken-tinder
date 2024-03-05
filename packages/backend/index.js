@@ -69,8 +69,15 @@ app.delete("/flocks/:code", (req, res) => {
 	res.send(`Flock ${req.params.code} deleted`);
 });
 
-app.get("/flocks/:code/chicks", (req, res) => {
-	res.send(`Chicks of flock ${req.params.code}`);
+app.get("/flocks/:code/chicks", async (req, res) => {
+	// console.log(`GET /flocks/${req.params.code}`);
+	try {
+		const flock = await findFlockByCode(req.params.code);
+		const chickNames = flock.chicks.map((chick) => chick.name);
+		res.json(chickNames);
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching chicks" });
+	}
 });
 
 app.post("/flocks/:coopName/basket/:title", async (req, res) => {
@@ -87,8 +94,20 @@ app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 	}
 });
 
-app.get("/flocks/:code/basket", (req, res) => {
-	res.send(`Options of flock ${req.params.code}`);
+app.get("/flocks/:code/basket", async (req, res) => {
+	// console.log(`GET /flocks/${req.params.code}`);
+	// findFlockByCode(req.params.code).then((flock) => {
+	// 	const eggNames = flock.basket.map((egg) => egg.title);
+	// 	res.json(eggNames);
+	// });
+	try {
+		const flock = await findFlockByCode(req.params.code);
+		const eggNames = flock.basket.map((egg) => egg.title);
+		console.log(eggNames);
+		res.json(eggNames);
+	} catch (error) {
+		res.status(500).json({ error: "An error occurred fetching eggs" });
+	}
 });
 
 app.get("/flocks/:coopName/decision", async (req, res) => {

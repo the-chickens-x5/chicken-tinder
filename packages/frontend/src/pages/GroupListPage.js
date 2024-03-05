@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
@@ -6,11 +6,20 @@ import { BigText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import toast from "react-hot-toast";
 import CoopContext from "../context/coop-context";
+import Table from "../components/Table";
 
 export default function GroupListPage() {
 	const navigate = useNavigate();
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
+	const [flock, setFlock] = useState([]);
+
+	useEffect(() => {
+		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/chicks/`)
+			.then((response) => response.json())
+			.then((data) => setFlock(data))
+			.catch((error) => console.error("Error:", error));
+	}, [params.coopName]);
 
 	function copyToClipboardAndNotify(input) {
 		navigator.clipboard.writeText(input);
@@ -37,6 +46,7 @@ export default function GroupListPage() {
 				textDisabled={true}
 			/>
 			<BigText>My Flock</BigText>
+			<Table rows={flock} />
 			<SmallButton
 				buttonText="let's go -->"
 				onClick={() => navigate(`/flock/${params.coopName}/nominations`)}

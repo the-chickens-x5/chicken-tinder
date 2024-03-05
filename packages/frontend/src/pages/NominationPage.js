@@ -29,11 +29,11 @@ export default function NominationPage() {
 			.then((response) => response.json())
 			.then((data) => setRestaurants(data))
 			.catch((error) => console.error("Error:", error));
-	}, [params.coop_name]);
+	}, [params.coopName]);
 
 	useEffect(() => {
-		coopContext.connectToFlock(params.coop_name);
-	}, [params.coop_name]);
+		coopContext.connectToFlock(params.coopName);
+	}, [params.coopName]);
 
 	useEffect(() => {
 		console.log(coopContext.messages);

@@ -53,7 +53,7 @@ export default function VotingPage() {
 		}, 5000);
 
 		return () => clearTimeout(timer);
-	}, [handleVote]);
+	}, [handleVote, egg]);
 
 	return (
 		<>

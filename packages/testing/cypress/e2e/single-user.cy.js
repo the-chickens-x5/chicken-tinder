@@ -1,7 +1,7 @@
 const FRONTEND_URL = "http://localhost:3000";
 
 /**
- * Run 
+ * Run
  * db.flocks.deleteMany({'chicks.name': 'Cypress Test Chick'})
  * in the database to clean up after this test
  */
@@ -59,7 +59,7 @@ describe("Happy Path -- Group Leader", () => {
 			cy.get("input[placeholder='Restaurant Name']").type(restaurant);
 			cy.get("button").contains("submit").click();
 			l++;
-			
+
 			cy.get("tbody").find("tr").should("have.length", l);
 			cy.get("td:last").should("contain", restaurant);
 

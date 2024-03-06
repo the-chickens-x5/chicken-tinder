@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText, BigText } from "../components/Input/Text";
 import { HalfWidthButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
+import NominationPage from "./NominationPage";
+import VotingPage from "./VotingPage";
 
 export default function WinnerPage() {
+	const navigate = useNavigate();
 	const params = useParams();
+
 	const [winningRestaurant, setWinner] = useState("");
 
 	useEffect(() => {
@@ -30,8 +34,18 @@ export default function WinnerPage() {
 					<FullWidthText>Winner Winner Chicken Dinner!</FullWidthText>
 					<BigText>{winningRestaurant}</BigText>
 					<div className="flex justify-between">
-						<HalfWidthButton>Return Home</HalfWidthButton>
-						<HalfWidthButton>Revote</HalfWidthButton>
+						<HalfWidthButton
+							buttonText="Return Home"
+							onClick={() => navigate("/")}
+						/>
+						<HalfWidthButton
+                            buttonText="Revote"
+                            onClick={async () => {
+                                await resetVotes();
+                                await resetEggs();
+                                navigate(`/flock/${params.coopName}/nominations/`);
+                            }}
+                        />
 					</div>
 				</div>
 			) : winningRestaurant === null ? (
@@ -39,8 +53,18 @@ export default function WinnerPage() {
 					<FullWidthText>Your eggs have cracked...</FullWidthText>
 					<BigText>Decision not available</BigText>
 					<div className="flex justify-between">
-						<HalfWidthButton>Return Home</HalfWidthButton>
-						<HalfWidthButton>Revote</HalfWidthButton>
+						<HalfWidthButton
+							buttonText="Return Home"
+							onClick={() => navigate("/")}
+						/>
+						<HalfWidthButton
+                            buttonText="Revote"
+                            onClick={async () => {
+                                await resetVotes();
+                                await resetEggs();
+                                navigate(`/flock/${params.coopName}/nominations/`);
+                            }}
+                        />
 					</div>
 				</div>
 			) : (

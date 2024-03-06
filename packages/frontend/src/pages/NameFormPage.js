@@ -23,7 +23,7 @@ export default function NameFormPage() {
 				setLoading(false);
 			})
 			.catch((error) => {
-				// if the flock doesn't exist, go back to the welcome page
+				// if the flock doesn't exist, go back to the tutorial page
 				navigate("/");
 			});
 	}, [navigate, params.coopName]);

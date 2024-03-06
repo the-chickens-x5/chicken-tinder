@@ -33,6 +33,19 @@ export default function NominationPage() {
 		return false;
 	}
 
+	async function resetEggs() {
+		const result = await fetch(
+			`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`,
+			{ method: "DELETE" }
+		);
+		if (result.status === 200) {
+			setRestaurants([]);
+			return result;
+		}
+		console.error("Error resetting eggs");
+		return false;
+	}
+
 	useEffect(() => {
 		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`)
 			.then((response) => response.json())

@@ -17,7 +17,7 @@ export function HalfWidthButton(props) {
 			onClick={props.onClick}
 			className="w-[45%] bg-primary text-white p-4 rounded-normal text-normal"
 		>
-			{props.children}
+			{props.buttonText}
 		</button>
 	);
 }
@@ -33,8 +33,6 @@ export function SmallButton(props) {
 	);
 }
 
-// TODO: Yes and no buttons shouldn't be distinct components, they are
-// only used once...
 /**
  * right-aligned button with white text
  * @param {string} props.buttonText - Text for the button

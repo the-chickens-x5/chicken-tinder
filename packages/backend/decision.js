@@ -34,9 +34,9 @@ async function getWinningRestaurant(coopName) {
 	}
 
 	// If no votes were cast, return null
-    if (highestYesVotes === 0) {
-        return null;
-    }
+	if (highestYesVotes === 0) {
+		return null;
+	}
 
 	// Return the name of the best restaurant (highest "yes" to "no" ratio),
 	// or null if there are no restaurants

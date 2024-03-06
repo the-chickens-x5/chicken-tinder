@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { YesButton, NoButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 export default function VotingPage() {
 	const [egg, setEgg] = useState(null);
@@ -51,21 +51,21 @@ export default function VotingPage() {
 	useEffect(() => {
 		const timers = [
 			setTimeout(() => {
-				toast('3 seconds remaining', {
+				toast("3 seconds remaining", {
 					duration: 1000,
-					position: 'top-right',
+					position: "top-right",
 				});
 			}, 2000),
 			setTimeout(() => {
-				toast('2 seconds remaining', {
+				toast("2 seconds remaining", {
 					duration: 1000,
-					position: 'top-right',
+					position: "top-right",
 				});
 			}, 3000),
 			setTimeout(() => {
-				toast('1 second remaining', {
+				toast("1 second remaining", {
 					duration: 1000,
-					position: 'top-right',
+					position: "top-right",
 				});
 			}, 4000),
 			setTimeout(() => {

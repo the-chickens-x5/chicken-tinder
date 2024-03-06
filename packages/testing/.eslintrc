@@ -1,10 +1,6 @@
 {
+    "plugins": ["cypress"],
     "env": {
-        "mocha": true
-    },
-    "globals": {
-        "cy": true,
-        "describe": true,
-        "it": true
+        "cypress/globals": true
     }
 }

@@ -40,19 +40,6 @@ export default function VotingPage() {
 
 	useEffect(postVote, [chick, coopName, navigate]);
 
-	async function resetVotes() {
-		const result = await fetch(
-			`${process.env.REACT_APP_API_URL}/flocks/${coopName}/${chick}/vote/`,
-			{ method: "DELETE" }
-		);
-		if (result.status === 200) {
-			handleVote([]);
-			return result;
-		}
-		console.error("Error resetting votes");
-		return false;
-	}
-
 	function handleVote(vote) {
 		egg.vote = vote;
 		const body = JSON.stringify({ egg: egg });

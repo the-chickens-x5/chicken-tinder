@@ -7,6 +7,10 @@ async function getWinningRestaurant(coopName) {
 	let highestYesVotes = -Infinity;
 	let highestYesToNoRatio = -Infinity;
 
+	if (!flock.basket) {
+		return null;
+	}
+
 	// Loop through each restaurant
 	for (let restaurant of flock.basket) {
 		// If the restaurant has more "yes" votes than any other restaurant so far,

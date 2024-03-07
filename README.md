@@ -19,13 +19,12 @@ Class diagram: ![here](./docs/schema.png)
 
 ## Development
 
-Clone and configure the repo:
-
+This script clones the repo (with SSH) and creates the necessary `.env` files. The backend env file must be configured with the relevant secrets.
 ```
-git clone git@github.com:bernicelau430/chicken-tinder.git
+git clone git@github.com:the-chickens-x5/chicken-tinder.git
 cd chicken-tinder
 npm install
-echo 'DB_PASSWORD=copy_password_here' > ./packages/backend/config/.env
+echo 'DB_PASSWORD=copy_password_here \nTENOR_API_KEY=copy_key_here' > ./packages/backend/.env
 echo 'REACT_APP_API_URL=http://localhost:8000' > ./packages/frontend/.env
 ```
 

@@ -5,7 +5,10 @@ import React from "react";
  */
 export function FullWidthText(props) {
 	return (
-		<div className="flex items-center justify-center w-full bg-secondary text-gray_text p-4 rounded-normal text-normal">
+		<div
+			name={props.name}
+			className="flex items-center justify-center w-full bg-secondary text-gray_text p-4 rounded-normal text-normal"
+		>
 			{props.children}
 		</div>
 	);

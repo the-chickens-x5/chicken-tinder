@@ -4,6 +4,7 @@ import { FullWidthText } from "../components/Input/Text";
 import { YesButton, NoButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-hot-toast";
+import { useTimer } from "react-timer-hook";
 
 export default function VotingPage() {
 	const [egg, setEgg] = useState(null);
@@ -48,33 +49,45 @@ export default function VotingPage() {
 		postVote(body);
 	}
 
-	useEffect(() => {
-		const timers = [
-			setTimeout(() => {
-				toast("3 seconds remaining", {
-					duration: 1000,
-					position: "top-right",
-				});
-			}, 2000),
-			setTimeout(() => {
-				toast("2 seconds remaining", {
-					duration: 1000,
-					position: "top-right",
-				});
-			}, 3000),
-			setTimeout(() => {
-				toast("1 second remaining", {
-					duration: 1000,
-					position: "top-right",
-				});
-			}, 4000),
-			setTimeout(() => {
-				handleVote(0);
-			}, 5000),
-		];
+	const expiryTimestamp = new Date();
+	expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5);
 
-		return () => timers.forEach(clearTimeout);
-	}, [handleVote, egg]);
+	const { seconds, start, pause, restart } = useTimer({
+		expiryTimestamp,
+		onExpire: () => handleVote(0),
+	});
+
+	useEffect(() => {
+		const newExpiryTimestamp = new Date();
+		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5); // 5 seconds from now
+		restart(newExpiryTimestamp);
+	}, [egg, restart]);
+
+	useEffect(() => {
+		start();
+		return () => {
+			pause();
+		};
+	}, [start, pause, handleVote, egg]);
+
+	useEffect(() => {
+		if (seconds === 3) {
+			toast("3 seconds remaining", {
+				duration: 1000,
+				position: "top-right",
+			});
+		} else if (seconds === 2) {
+			toast("2 seconds remaining", {
+				duration: 1000,
+				position: "top-right",
+			});
+		} else if (seconds === 1) {
+			toast("1 second remaining", {
+				duration: 1000,
+				position: "top-right",
+			});
+		}
+	}, [seconds]);
 
 	return (
 		<>

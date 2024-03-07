@@ -109,7 +109,7 @@ app.delete("/flocks/:coopName/basket", async (req, res) => {
 	flock.chicks.forEach((chick) => {
 		chick.preferences = [];
 	});
-	flock.save();
+	await flock.save();
 	res.status(200).send();
 });
 

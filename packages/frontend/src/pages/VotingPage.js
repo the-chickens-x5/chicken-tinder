@@ -49,40 +49,22 @@ export default function VotingPage() {
 		postVote(body);
 	}
 
-	const expiryTimestamp = new Date();
-	expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5);
-
-	const { seconds, start, pause, restart } = useTimer({
-		expiryTimestamp,
+	// set timer
+	const { seconds, restart } = useTimer({
+		expiryTimestamp: new Date(),
 		onExpire: () => handleVote(0),
 	});
 
 	useEffect(() => {
 		const newExpiryTimestamp = new Date();
-		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5); // 5 seconds from now
+		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5);
 		restart(newExpiryTimestamp);
-	}, [egg, restart]);
+	}, [egg]);
 
+	// toast timer visuals
 	useEffect(() => {
-		start();
-		return () => {
-			pause();
-		};
-	}, [start, pause, handleVote, egg]);
-
-	useEffect(() => {
-		if (seconds === 3) {
-			toast("3 seconds remaining", {
-				duration: 1000,
-				position: "top-right",
-			});
-		} else if (seconds === 2) {
-			toast("2 seconds remaining", {
-				duration: 1000,
-				position: "top-right",
-			});
-		} else if (seconds === 1) {
-			toast("1 second remaining", {
+		if (seconds < 4 && seconds > 0) {
+			toast(`${seconds} seconds remaining`, {
 				duration: 1000,
 				position: "top-right",
 			});

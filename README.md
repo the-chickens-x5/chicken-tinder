@@ -20,6 +20,7 @@ Class diagram: ![here](./docs/schema.png)
 ## Development
 
 This script clones the repo (with SSH) and creates the necessary `.env` files. The backend env file must be configured with the relevant secrets.
+
 ```
 git clone git@github.com:the-chickens-x5/chicken-tinder.git
 cd chicken-tinder

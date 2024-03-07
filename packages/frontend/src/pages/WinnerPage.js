@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText, BigText } from "../components/Input/Text";
 import { HalfWidthButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
 
 export default function WinnerPage() {
+	const navigate = useNavigate();
 	const params = useParams();
-	const [winningRestaurant, setWinner] = useState("");
+
+	const [winningRestaurant, setWinner] = useState(null);
 
 	useEffect(() => {
 		async function getWinner() {
@@ -14,7 +16,7 @@ export default function WinnerPage() {
 				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/decision`
 			);
 			if (response.status === 404) {
-				setWinner(null);
+				setWinner("");
 			} else {
 				const data = await response.json();
 				setWinner(data.winner);
@@ -23,29 +25,31 @@ export default function WinnerPage() {
 		getWinner();
 	}, [params.coopName]);
 
-	return (
-		<>
-			{winningRestaurant ? (
-				<div className="flex flex-col space-y-normal justify-center w-5/6">
-					<FullWidthText>Winner Winner Chicken Dinner!</FullWidthText>
-					<BigText>{winningRestaurant}</BigText>
-					<div className="flex justify-between">
-						<HalfWidthButton>Return Home</HalfWidthButton>
-						<HalfWidthButton>Revote</HalfWidthButton>
-					</div>
-				</div>
-			) : winningRestaurant === null ? (
-				<div className="flex flex-col space-y-normal justify-center w-5/6">
-					<FullWidthText>Your eggs have cracked...</FullWidthText>
-					<BigText>Decision not available</BigText>
-					<div className="flex justify-between">
-						<HalfWidthButton>Return Home</HalfWidthButton>
-						<HalfWidthButton>Revote</HalfWidthButton>
-					</div>
-				</div>
-			) : (
-				<LoadingPage />
-			)}
-		</>
+	async function resetEggs() {
+		await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`, {
+			method: "DELETE",
+		});
+		return false;
+	}
+
+	return winningRestaurant === null ? (
+		<LoadingPage />
+	) : (
+		<div className="flex flex-col space-y-normal justify-center w-5/6">
+			<FullWidthText>
+				{winningRestaurant ? "Winner Winner Chicken Dinner!" : "Your eggs have cracked..."}
+			</FullWidthText>
+			<BigText>{winningRestaurant ? winningRestaurant : "Decision not available"}</BigText>
+			<div className="flex justify-between">
+				<HalfWidthButton buttonText="Return Home" onClick={() => navigate("/")} />
+				<HalfWidthButton
+					buttonText="Revote"
+					onClick={async () => {
+						await resetEggs();
+						navigate(`/flock/${params.coopName}/nominations/`);
+					}}
+				/>
+			</div>
+		</div>
 	);
 }

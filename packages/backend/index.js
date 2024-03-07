@@ -106,6 +106,9 @@ app.get("/flocks/:code/basket", async (req, res) => {
 app.delete("/flocks/:coopName/basket", async (req, res) => {
 	const flock = await findFlockByCode(req.params.coopName);
 	flock.basket = [];
+	flock.chicks.forEach((chick) => {
+		chick.preferences = [];
+	});
 	flock.save();
 	res.status(200).send();
 });

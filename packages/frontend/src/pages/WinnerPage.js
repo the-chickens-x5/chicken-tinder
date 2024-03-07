@@ -3,8 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText, BigText } from "../components/Input/Text";
 import { HalfWidthButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
-import NominationPage from "./NominationPage";
-import VotingPage from "./VotingPage";
 
 export default function WinnerPage() {
 	const navigate = useNavigate();
@@ -28,10 +26,9 @@ export default function WinnerPage() {
 	}, [params.coopName]);
 
 	async function resetEggs() {
-		const result = await fetch(
-			`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`,
-			{ method: "DELETE" }
-		);
+		await fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`, {
+			method: "DELETE",
+		});
 		return false;
 	}
 

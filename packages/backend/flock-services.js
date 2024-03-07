@@ -61,7 +61,8 @@ async function addChickToFlock(coopName, chickName) {
 
 	flock.chicks.push({ name: chickName, votes: [] });
 	await flock.save();
-	return chickName;
+	const chick = flock.chicks.find((chick) => chick.name === chickName);
+	return chick;
 }
 
 export { findFlockByCode, createFlock, addChickToFlock, createEgg };

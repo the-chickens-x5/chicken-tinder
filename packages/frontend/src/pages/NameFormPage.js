@@ -3,29 +3,42 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import LoadingPage from "./LoadingPage";
+import { toast } from "react-hot-toast";
 
 export default function NameFormPage() {
 	const navigate = useNavigate();
 	const params = useParams();
 
 	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
-		// TODO: use context instead of localStorage
-		if (localStorage.getItem("chickName")) {
-			navigate(`/flock/${params.coopName}/lobby/`);
+		async function checkChickAndFlock() {
+			const chickId = localStorage.getItem("chickId");
+			if (chickId) {
+				const chickResponse = await fetch(
+					`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/chicks/${chickId}`
+				);
+				console.log(chickResponse.status);
+				if (chickResponse.status === 200) {
+					localStorage.setItem("chickName", chickResponse.name);
+					navigate(`/flock/${params.coopName}/lobby/`);
+					return;
+				}
+			}
+
+			localStorage.clear();
+
+			const flockResponse = await fetch(
+				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket`
+			);
+			if (flockResponse.status === 200) {
+				setLoading(false);
+			} else {
+				navigate("/welcome");
+			}
 		}
 
-		// get the flock info
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}`)
-			.then((response) => response.json())
-			.then((data) => {
-				// if the flock exists, show user form
-				setLoading(false);
-			})
-			.catch((error) => {
-				// if the flock doesn't exist, go back to the tutorial page
-				navigate("/");
-			});
+		checkChickAndFlock();
 	}, [navigate, params.coopName]);
 
 	async function addChick(name) {
@@ -41,17 +54,20 @@ export default function NameFormPage() {
 		);
 
 		if (result.status === 400) {
-			console.error("Chick already exists");
-			return false;
+			toast.error("Chick already exists", {
+				position: "bottom-right",
+			});
+			return null;
 		} else {
-			return true;
+			return result.json();
 		}
 	}
 
 	async function onClick(chickName) {
-		const result = await addChick(chickName);
-		if (result) {
-			localStorage.setItem("chickName", chickName);
+		const chick = await addChick(chickName);
+		if (chick) {
+			localStorage.setItem("chickName", chick.name);
+			localStorage.setItem("chickId", chick._id);
 			navigate(`/flock/${params.coopName}/lobby/`);
 		}
 	}

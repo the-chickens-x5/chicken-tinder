@@ -4,7 +4,6 @@ import getWinningRestaurant from "./decision.js";
 import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
-import process from "process";
 import { getTenorGIF } from "./services/tenor.js";
 import dotenv from "dotenv";
 

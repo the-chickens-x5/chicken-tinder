@@ -16,3 +16,8 @@ jobs:
                   node-version: 20
             - run: npm ci
             - run: npm run lint
+            - run: npm run test
+              env:
+                  REACT_APP_API_URL: http://localhost:8000
+                  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+                  TENOR_API_KEY: ${{ secrets.TENOR_API_KEY }}

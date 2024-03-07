@@ -51,7 +51,7 @@ export default function VotingPage() {
 		<>
 			{egg ? (
 				<div className="flex flex-col space-y-normal justify-center w-5/6 h-[550px]">
-					<FullWidthText>{egg.title}</FullWidthText>
+					<FullWidthText name="egg">{egg.title}</FullWidthText>
 					<div className="flex flex-row justify-between h-full">
 						<NoButton buttonText="<-- No" onClick={() => handleVote(-1)} />
 						<div className="flex flex-col space-y-normal justify-center w-full">

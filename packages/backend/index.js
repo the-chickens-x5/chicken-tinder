@@ -84,7 +84,7 @@ app.get("/flocks/:code/chicks", async (req, res) => {
 app.get("/flocks/:code/chicks/:id", async (req, res) => {
 	try {
 		const flock = await findFlockByCode(req.params.code);
-		const chick = flock.chicks.find((chick) => chick._id == req.params.id);
+		const chick = flock.chicks.find((chick) => chick._id === req.params.id);
 		if (!chick) {
 			res.status(404).send({ message: "Chick not found" });
 		}

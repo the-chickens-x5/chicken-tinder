@@ -61,7 +61,7 @@ app.post("/flocks/:coopName/chicks", async (req, res) => {
 	}
 
 	io.to(req.params.coopName).emit("message", { type: "chick-added", chick: chick });
-	res.send({ name: chick });
+	res.send(chick);
 });
 
 app.delete("/flocks/:code", (req, res) => {

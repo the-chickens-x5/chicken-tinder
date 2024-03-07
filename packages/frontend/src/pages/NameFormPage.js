@@ -42,16 +42,17 @@ export default function NameFormPage() {
 
 		if (result.status === 400) {
 			console.error("Chick already exists");
-			return false;
+			return null;
 		} else {
-			return true;
+			return result.json();
 		}
 	}
 
 	async function onClick(chickName) {
-		const result = await addChick(chickName);
-		if (result) {
-			localStorage.setItem("chickName", chickName);
+		const chick = await addChick(chickName);
+		if (chick) {
+			localStorage.setItem("chickName", chick.name);
+			localStorage.setItem("chickId", chick._id);
 			navigate(`/flock/${params.coopName}/lobby/`);
 		}
 	}

@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { YesButton, NoButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
+import { toast } from "react-hot-toast";
+import { useTimer } from "react-timer-hook";
 
 export default function VotingPage() {
 	const [egg, setEgg] = useState(null);
@@ -46,6 +48,28 @@ export default function VotingPage() {
 
 		postVote(body);
 	}
+
+	// set timer
+	const { seconds, restart } = useTimer({
+		expiryTimestamp: new Date(),
+		onExpire: () => handleVote(0),
+	});
+
+	useEffect(() => {
+		const newExpiryTimestamp = new Date();
+		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5);
+		restart(newExpiryTimestamp);
+	}, [egg]);
+
+	// toast timer visuals
+	useEffect(() => {
+		if (seconds < 4 && seconds > 0) {
+			toast(`${seconds} seconds remaining`, {
+				duration: 1000,
+				position: "top-right",
+			});
+		}
+	}, [seconds]);
 
 	return (
 		<>

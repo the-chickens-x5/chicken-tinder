@@ -37,6 +37,22 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
+app.post("/auth/login", async(req, res) =>{
+
+
+});
+
+app.post("/auth/register", async(req, res) =>{
+
+
+});
+
+app.get("/auth/login/user", async(req, res) =>{
+
+
+});
+
+
 app.post("/flocks", async (req, res) => {
 	try {
 		const flock = await createFlock();

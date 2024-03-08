@@ -54,6 +54,29 @@ const flockSchema = new mongoose.Schema(
 	{ collection: "flocks", timestamps: true }
 );
 
-const Flock = mongoose.model("Flock", flockSchema);
+const henSchema = new mongoose.Schema(
+	{
+		henName: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
+		flocks: [flockSchema.id]
+	}
+)
 
-export default Flock;
+const Flock = mongoose.model("Flock", flockSchema);
+const Hen = mongoose.model("Hen", henSchema);
+
+export default {Flock, Hen};

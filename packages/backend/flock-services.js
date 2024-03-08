@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Flock from "./flock.js";
+import {Flock, Hen} from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 import dotenv from "dotenv";
@@ -65,4 +65,11 @@ async function addChickToFlock(coopName, chickName) {
 	return chickName;
 }
 
-export { findFlockByCode, createFlock, addChickToFlock, createEgg };
+async function createHen(henName, henEmail, henPass){
+	let jwtSecretKey = process.env.JWT_SECRET_KEY;
+	const token = jwt.sign(henPass, jwtSecretKey); 
+	const hen = new Hen({henName, henEmail, token});
+
+	return hen;
+}
+export { findFlockByCode, createFlock, addChickToFlock, createEgg, createHen};

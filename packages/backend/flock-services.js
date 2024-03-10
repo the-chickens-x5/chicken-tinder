@@ -3,6 +3,8 @@ import {Flock, Hen} from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
+import { Hash } from "crypto";
 
 dotenv.config();
 
@@ -13,6 +15,10 @@ mongoose.connect(url, { dbName: "chicken-tinder" }).catch((error) => console.err
 
 async function findFlockByCode(code) {
 	return Flock.findOne({ coopName: code });
+}
+
+async function findHenByEmail(email) {
+	return Hen.findOne({email: email});
 }
 
 async function createFlock() {
@@ -66,10 +72,9 @@ async function addChickToFlock(coopName, chickName) {
 }
 
 async function createHen(henName, henEmail, henPass){
-	let jwtSecretKey = process.env.JWT_SECRET_KEY;
-	const token = jwt.sign(henPass, jwtSecretKey); 
-	const hen = new Hen({henName, henEmail, token});
+	const hash = bcrypt.hashSync(henPass, 10);	
+	const hen = new Hen({henName : henName, email : henEmail, hash: hash});
 
 	return hen;
 }
-export { findFlockByCode, createFlock, addChickToFlock, createEgg, createHen};
+export { findFlockByCode, findHenByEmail, createFlock, addChickToFlock, createEgg, createHen};

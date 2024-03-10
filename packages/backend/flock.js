@@ -68,15 +68,15 @@ const henSchema = new mongoose.Schema(
 			trim: true,
 			unique: true,
 		},
-		password: {
+		hash: {
 			type: String,
 			required: true,
 		},
-		flocks: [flockSchema.id]
-	}
-)
+		flocks: [mongoose.Schema.ObjectId],
+	},
+);
 
 const Flock = mongoose.model("Flock", flockSchema);
 const Hen = mongoose.model("Hen", henSchema);
 
-export default {Flock, Hen};
+export {Flock, Hen};

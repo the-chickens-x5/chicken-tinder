@@ -71,6 +71,21 @@ app.post("/auth/register", async(req, res) =>{
 	}
 });
 
+app.get("/auth/check", async(req, res) =>{
+	const token = req.headers.authorization.split(" ")[1];
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+		if (decoded.expiration < Math.floor(Date.now() / 1000)){
+			res.status(401).send({error : "token expired"});
+		}
+		else{
+			res.status(200).send({message : "token valid"});
+		}
+	} catch (e){
+		res.status(401).send({error : "invalid token"});
+	}
+});
+
 app.post("/flocks", async (req, res) => {
 	try {
 		const flock = await createFlock();

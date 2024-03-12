@@ -1,11 +1,14 @@
 import express from "express";
 import cors from "cors";
 import getWinningRestaurant from "./decision.js";
-import { findFlockByCode, createFlock, addChickToFlock, createEgg } from "./flock-services.js";
+import { findFlockByCode, createFlock, addChickToFlock, createEgg, createHen, findHenByEmail } from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
 import { getTenorGIF } from "./services/tenor.js";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
+import { getUserId } from "./auth.js";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -36,9 +39,64 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
+app.post("/auth/login", async(req, res) =>{
+	const email = req.body.email;
+	const pass = req.body.pass;
+
+	try {
+		const hen = await findHenByEmail(email)
+		if(!hen){
+			res.status(401).send(error);
+		}
+		else{
+			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);
+			if(bcrypt.compareSync(pass, hen.hash)){
+				const token = jwt.sign({henID : hen._id, expiration : currentUnixTimeInSeconds + 3600}, process.env.JWT_SECRET_KEY);
+				return res.send({ token: token });
+			}
+			return res.status(403).send({error : "wrong credentials"});
+		}
+	}
+	catch (e){
+		console.error(e);
+		res.status(401).send(e);
+	}
+
+});
+
+app.post("/auth/register", async(req, res) =>{
+	try{
+		console.log(req.body);
+		const hen = await createHen(req.body.name, req.body.email, req.body.pass);
+		res.status(201).send(hen);
+ 	} catch (e){
+		console.error(e);
+		res.status(500).send("Failed to create hen");
+	}
+});
+
+app.get("/auth/check", async(req, res) =>{
+	const token = req.headers.authorization.split(" ")[1];
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+		if (decoded.expiration < Math.floor(Date.now() / 1000)){
+			res.status(401).send({error : "token expired"});
+		}
+		else{
+			res.status(200).send({message : "token valid"});
+		}
+	} catch (e){
+		res.status(401).send({error : "invalid token"});
+	}
+});
+
 app.post("/flocks", async (req, res) => {
 	try {
-		const flock = await createFlock();
+		const userId = await getUserId(req, res);
+		if (!userId) {
+			return;
+		}
+		const flock = await createFlock(userId);
 		res.status(201).send(flock);
 	} catch (e) {
 		console.error(e);

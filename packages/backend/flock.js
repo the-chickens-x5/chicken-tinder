@@ -50,10 +50,36 @@ const flockSchema = new mongoose.Schema(
 		},
 		chicks: [chickSchema],
 		basket: [eggSchema],
+		owner: {
+			type: mongoose.ObjectId,
+			required: true,
+		},
 	},
 	{ collection: "flocks", timestamps: true }
 );
 
-const Flock = mongoose.model("Flock", flockSchema);
+const henSchema = new mongoose.Schema(
+	{
+		henName: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		hash: {
+			type: String,
+			required: true,
+		}
+	},
+);
 
-export default Flock;
+const Flock = mongoose.model("Flock", flockSchema);
+const Hen = mongoose.model("Hen", henSchema);
+
+export {Flock, Hen};

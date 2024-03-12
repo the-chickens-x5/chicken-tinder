@@ -29,7 +29,7 @@ export default function RegisterPage(){
         try{
             const result = await fetch(
                 `${process.env.REACT_APP_API_URL}/auth/register`,
-                { 
+                {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -53,13 +53,13 @@ export default function RegisterPage(){
     return (
         <div className="flex flex-col space-y-normal justify-center w-5/6">
             <form className="flex flex-col space-y-10 justify-center items-center">
-                <Input placeholder="chickenFeet123" onChange={handleChangeUserName}>Username</Input>
-                <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
-                <Input onChange={handleChangePass}>Password</Input> 
+                <Input placeholder="chickenFeet123" onChange={handleChangeUserName} value={userName}>Username</Input>
+                <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail} value={emailValue}>Email</Input>
+                <Input onChange={handleChangePass} value={passValue}>Password</Input>
                 <FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
-                
+
             </form>
-           
+
         </div>
     )
 }

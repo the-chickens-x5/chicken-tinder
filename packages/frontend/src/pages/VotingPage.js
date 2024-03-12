@@ -6,7 +6,7 @@ import LoadingPage from "./LoadingPage";
 import { toast } from "react-hot-toast";
 import { useTimer } from "react-timer-hook";
 
-export default function VotingPage() {
+export default function VotingPage(props) {
 	const [egg, setEgg] = useState(null);
 	const [gifUrl, setGifUrl] = useState(null);
 
@@ -26,7 +26,7 @@ export default function VotingPage() {
 		})
 			.then((response) => {
 				if (response.status === 204) {
-					navigate(`/flock/${coopName}/winner/`);
+					props.loadFlockState();
 				} else {
 					return response.json();
 				}

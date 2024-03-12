@@ -58,19 +58,16 @@ app.post("/auth/login", async(req, res) =>{
 		}
 	}
 	catch (e){
-		console.error(e);
 		res.status(401).send(e);
 	}
 
 });
 
 app.post("/auth/register", async(req, res) =>{
-	try{
-		console.log(req.body);
+	try {
 		const hen = await createHen(req.body.name, req.body.email, req.body.pass);
 		res.status(201).send(hen);
  	} catch (e){
-		console.error(e);
 		res.status(500).send("Failed to create hen");
 	}
 });
@@ -99,7 +96,6 @@ app.post("/flocks", async (req, res) => {
 		const flock = await createFlock(userId);
 		res.status(201).send(flock);
 	} catch (e) {
-		console.error(e);
 		res.status(500).send("Failed to create flock");
 	}
 });
@@ -111,6 +107,19 @@ app.get("/flocks/:code", async (req, res) => {
 	} else {
 		res.status(404).send({ message: "Flock not found" });
 	}
+});
+
+app.post("/flocks/:code/step", async (req, res) => {
+    const flock = await findFlockByCode(req.params.code)
+    const userId = await getUserId(req, res);
+    if (userId != flock.owner){
+        return;
+    }
+    const newStep = req.body.step || flock.step + 1;
+    flock.step = newStep;
+    flock.save();
+    io.to(req.params.code).emit("message", { type: "flock-step", newState: flock});
+    res.send(flock);
 });
 
 app.post("/flocks/:coopName/chicks", async (req, res) => {
@@ -161,7 +170,6 @@ app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 			res.status(201).send(egg);
 		}
 	} catch (e) {
-		console.error(e);
 		res.status(500).send("Failed to create egg");
 	}
 });

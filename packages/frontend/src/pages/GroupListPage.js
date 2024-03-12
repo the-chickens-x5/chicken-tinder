@@ -8,8 +8,7 @@ import toast from "react-hot-toast";
 import CoopContext from "../context/coop-context";
 import Table from "../components/Table";
 
-export default function GroupListPage() {
-	const navigate = useNavigate();
+export default function GroupListPage(props) {
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
 	const [flock, setFlock] = useState([]);
@@ -57,7 +56,7 @@ export default function GroupListPage() {
 			<Table rows={flock} />
 			<SmallButton
 				buttonText="let's go -->"
-				onClick={() => navigate(`/flock/${params.coopName}/nominations`)}
+				onClick={props.nextStep}
 			/>
 		</div>
 	);

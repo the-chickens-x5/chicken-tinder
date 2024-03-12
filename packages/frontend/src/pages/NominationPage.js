@@ -8,9 +8,8 @@ import Table from "../components/Table";
 import CoopContext from "../context/coop-context";
 import toast from "react-hot-toast";
 
-export default function NominationPage() {
+export default function NominationPage(props) {
 	const params = useParams();
-	const navigate = useNavigate();
 	const coopContext = useContext(CoopContext);
 	const [restaurants, setRestaurants] = useState([]);
 
@@ -62,7 +61,7 @@ export default function NominationPage() {
 			<Table rows={restaurants} />
 			<SmallButton
 				buttonText="let's go -->"
-				onClick={() => navigate(`/flock/${params.coopName}/voting/`)}
+				onClick={props.nextStep}
 			/>
 		</div>
 	);

@@ -6,13 +6,11 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import toast from "react-hot-toast";
 
-export default function LoginPage(){
+export default function RegisterPage(){
     const navigate = useNavigate();
-    const auth = useContext(AuthContext);
     const [emailValue, setEmail] = useState("");
     const [passValue, setPassword] = useState("");
     const [UserName, setUserName] = useState("");
-    const redirectPath = new URLSearchParams(window.location.search).get("redirect") || "/welcome";
 
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);

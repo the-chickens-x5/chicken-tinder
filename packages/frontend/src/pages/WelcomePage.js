@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useContext} from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/auth-context";
+import toast from "react-hot-toast";
 
 export default function WelcomePage() {
 	const navigate = useNavigate();
+	const auth = useContext(AuthContext);
 
 	async function createGroup() {
+		if (!auth.isLoggedIn) {
+			toast.error("You must be logged in to create a group");
+			navigate("/login");
+			return;
+		}
 		const res = await fetch(`${process.env.REACT_APP_API_URL}/flocks`, {
 			method: "POST",
 		});

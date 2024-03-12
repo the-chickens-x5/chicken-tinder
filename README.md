@@ -32,8 +32,8 @@ echo 'REACT_APP_API_URL=http://localhost:8000' > ./packages/frontend/.env
 To start up local instances:
 
 ```
-npm run backend
-npm run frontend
+npm run backend-dev
+npm run frontend-dev
 ```
 
 Before commiting/pushing, maintain style conventions with:

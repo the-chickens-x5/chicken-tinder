@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 export default function NominationPage(props) {
 	const params = useParams();
 	const coopContext = useContext(CoopContext);
-	const [restaurants, setRestaurants] = useState([]);
 
 	function giveError() {
 		toast.success("Restaurant already added", {
@@ -25,19 +24,11 @@ export default function NominationPage(props) {
 			{ method: "POST" }
 		);
 		if (result.status === 201) {
-			setRestaurants((prevRestaurants) => [...prevRestaurants, title]);
 			return result;
 		}
 		giveError();
 		return false;
 	}
-
-	useEffect(() => {
-		fetch(`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/basket/`)
-			.then((response) => response.json())
-			.then((data) => setRestaurants(data))
-			.catch((error) => console.error("Error:", error));
-	}, [params.coopName]);
 
 	useEffect(() => {
 		coopContext.connectToFlock(params.coopName);
@@ -58,11 +49,10 @@ export default function NominationPage(props) {
 				}}
 			/>
 			<BigText>The Basket</BigText>
-			<Table rows={restaurants} />
-			<SmallButton
-				buttonText="let's go -->"
-				onClick={props.nextStep}
+			<Table
+				rows={props.flock?.basket ? props.flock.basket.map((basket) => basket.title) : []}
 			/>
+			<SmallButton buttonText="let's go -->" onClick={props.nextStep} />
 		</div>
 	);
 }

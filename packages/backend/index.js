@@ -1,7 +1,14 @@
 import express from "express";
 import cors from "cors";
 import getWinningRestaurant from "./decision.js";
-import { findFlockByCode, createFlock, addChickToFlock, createEgg, createHen, findHenByEmail } from "./flock-services.js";
+import {
+	findFlockByCode,
+	createFlock,
+	addChickToFlock,
+	createEgg,
+	createHen,
+	findHenByEmail,
+} from "./flock-services.js";
 import http from "http";
 import { Server } from "socket.io";
 import { getTenorGIF } from "./services/tenor.js";
@@ -39,51 +46,50 @@ app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
 
-app.post("/auth/login", async(req, res) =>{
+app.post("/auth/login", async (req, res) => {
 	const email = req.body.email;
 	const pass = req.body.pass;
 
 	try {
-		const hen = await findHenByEmail(email)
-		if(!hen){
+		const hen = await findHenByEmail(email);
+		if (!hen) {
 			res.status(401).send(error);
-		}
-		else{
+		} else {
 			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);
-			if(bcrypt.compareSync(pass, hen.hash)){
-				const token = jwt.sign({henID : hen._id, expiration : currentUnixTimeInSeconds + 3600}, process.env.JWT_SECRET_KEY);
+			if (bcrypt.compareSync(pass, hen.hash)) {
+				const token = jwt.sign(
+					{ henID: hen._id, expiration: currentUnixTimeInSeconds + 3600 },
+					process.env.JWT_SECRET_KEY
+				);
 				return res.send({ token: token });
 			}
-			return res.status(403).send({error : "wrong credentials"});
+			return res.status(403).send({ error: "wrong credentials" });
 		}
-	}
-	catch (e){
+	} catch (e) {
 		res.status(401).send(e);
 	}
-
 });
 
-app.post("/auth/register", async(req, res) =>{
+app.post("/auth/register", async (req, res) => {
 	try {
 		const hen = await createHen(req.body.name, req.body.email, req.body.pass);
 		res.status(201).send(hen);
- 	} catch (e){
+	} catch (e) {
 		res.status(500).send("Failed to create hen");
 	}
 });
 
-app.get("/auth/check", async(req, res) =>{
+app.get("/auth/check", async (req, res) => {
 	const token = req.headers.authorization.split(" ")[1];
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-		if (decoded.expiration < Math.floor(Date.now() / 1000)){
-			res.status(401).send({error : "token expired"});
+		if (decoded.expiration < Math.floor(Date.now() / 1000)) {
+			res.status(401).send({ error: "token expired" });
+		} else {
+			res.status(200).send({ message: "token valid" });
 		}
-		else{
-			res.status(200).send({message : "token valid"});
-		}
-	} catch (e){
-		res.status(401).send({error : "invalid token"});
+	} catch (e) {
+		res.status(401).send({ error: "invalid token" });
 	}
 });
 
@@ -110,28 +116,31 @@ app.get("/flocks/:code", async (req, res) => {
 });
 
 app.post("/flocks/:code/step", async (req, res) => {
-    const flock = await findFlockByCode(req.params.code)
-    const userId = await getUserId(req, res);
-    if (userId != flock.owner){
-        return;
-    }
-    const newStep = req.body.step || flock.step + 1;
-    flock.step = newStep;
-    flock.save();
-    io.to(req.params.code).emit("message", { type: "flock-step", newState: flock});
-    res.send(flock);
+	const flock = await findFlockByCode(req.params.code);
+	const userId = await getUserId(req, res);
+	if (userId != flock.owner) {
+		return;
+	}
+	const newStep = req.body.step || flock.step + 1;
+	flock.step = newStep;
+	flock.save();
+	io.to(req.params.code).emit("message", { type: "flock-updated", newState: flock });
+	res.send(flock);
 });
 
 app.post("/flocks/:coopName/chicks", async (req, res) => {
-	const chick = await addChickToFlock(req.params.coopName, req.body.name);
+	const chickAndFlock = await addChickToFlock(req.params.coopName, req.body.name);
 
-	if (!chick) {
+	if (!chickAndFlock) {
 		res.status(400).send({ message: "Chick already exists" });
 		return;
 	}
 
-	io.to(req.params.coopName).emit("message", { type: "chick-added", chick: chick });
-	res.send(chick);
+	io.to(req.params.coopName).emit("message", {
+		type: "flock-updated",
+		newState: chickAndFlock["newFlock"],
+	});
+	res.send(chickAndFlock["chick"]);
 });
 
 app.delete("/flocks/:code", (req, res) => {
@@ -167,7 +176,11 @@ app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 		if (!egg) {
 			res.status(409).send({ message: "egg already exists" });
 		} else {
-			res.status(201).send(egg);
+			io.to(req.params.coopName).emit("message", {
+				type: "flock-updated",
+				newState: egg.newFlock,
+			});
+			res.status(201).send(egg.egg);
 		}
 	} catch (e) {
 		res.status(500).send("Failed to create egg");

@@ -15,7 +15,7 @@ UI prototypes and designs are located in Figma (last updated 2/27/24):
 -   [Designs](https://www.figma.com/file/NYJDxRDX5nzyrkO2d03S7I/Chicken-Tinder?type=design&node-id=0%3A1&mode=design&t=a2ww8RXXaC2aStSE-1)
 -   [Prototype](https://www.figma.com/proto/NYJDxRDX5nzyrkO2d03S7I/Chicken-Tinder?type=design&node-id=269-111&t=7F6iy4C3B3gihSNp-0&scaling=min-zoom&starting-point-node-id=269%3A111&show-proto-sidebar=1)
 
-Class diagram: ![here](./docs/schema.png)
+Class diagram: ![class diagram image](./docs/schema.jpg)
 
 ## Development
 
@@ -32,8 +32,8 @@ echo 'REACT_APP_API_URL=http://localhost:8000' > ./packages/frontend/.env
 To start up local instances:
 
 ```
-npm run backend
-npm run frontend
+npm run backend-dev
+npm run frontend-dev
 ```
 
 Before commiting/pushing, maintain style conventions with:

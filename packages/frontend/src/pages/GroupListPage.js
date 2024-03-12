@@ -32,9 +32,17 @@ export default function GroupListPage() {
 		coopContext.connectToFlock(params.coopName);
 	}, [params.coopName]);
 
-	useEffect(() => {
-		console.log(coopContext.messages);
-	}, [coopContext.messages]);
+    // useEffect(() => {
+    //     const handleUpdateFlock = (updatedFlock) => {
+    //         setFlock(updatedFlock);
+    //     };
+
+    //     // Listen for 'update-flock' event from the server
+    //     coopContext.socket.on('join-flock', handleUpdateFlock);
+
+    //     // Clean up the effect by removing the listener
+    //     return () => coopContext.socket.off('join-flock', handleUpdateFlock);
+    // }, [coopContext.socket]);
 
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">

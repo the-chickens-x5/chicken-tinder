@@ -8,11 +8,9 @@ import toast from "react-hot-toast";
 
 export default function LoginPage(){
     const navigate = useNavigate();
-    const auth = useContext(AuthContext);
     const [emailValue, setEmail] = useState("");
     const [passValue, setPassword] = useState("");
     const [UserName, setUserName] = useState("");
-    const redirectPath = new URLSearchParams(window.location.search).get("redirect") || "/welcome";
 
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);
@@ -59,6 +57,7 @@ export default function LoginPage(){
                 <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
                 <Input onChange={handleChangePass}>Password</Input> 
                 <FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
+                
             </form>
            
         </div>

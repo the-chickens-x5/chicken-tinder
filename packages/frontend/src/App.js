@@ -9,6 +9,7 @@ import VotingPage from "./pages/VotingPage";
 import LoadingPage from "./pages/LoadingPage";
 import WinnerPage from "./pages/WinnerPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import ProtectedPage from "./components/ProtectedPage";
 import { Toaster } from "react-hot-toast";
 import { CoopProvider } from "./context/coop-context";
@@ -24,6 +25,7 @@ function App() {
 						<Route exact path="/" element={<TutorialPage />} />
 						<Route exact path="/welcome" element={<ProtectedPage><WelcomePage /></ProtectedPage>} />
 						<Route exact path="/login" element={<LoginPage />} />
+						<Route exact path="/register" element={<RegisterPage />} />
 						<Route path="/flock/:coopName/lobby/" element={<ProtectedPage><GroupListPage /></ProtectedPage>} />
 						<Route path="/flock/:coopName/nominations/" element={<ProtectedPage><NominationPage /></ProtectedPage>} />
 						<Route path="/flock/:coopName/voting/" element={<ProtectedPage><VotingPage /></ProtectedPage>} />

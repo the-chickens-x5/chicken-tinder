@@ -37,6 +37,8 @@ export default function LoginPage(){
                 <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
                 <Input onChange={handleChangePass}>Password</Input> 
                 <FullWidthButton onClick={handleLogin}>Login</FullWidthButton>
+                <h5 className="flex flex-col space-y-4">or</h5>
+                <button className="text-xl m-0" onClick={() => navigate(`register`)}>Register</button>
             </form>
            
         </div>

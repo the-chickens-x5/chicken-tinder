@@ -21,7 +21,7 @@ async function findHenByEmail(email) {
 	return Hen.findOne({email: email});
 }
 
-async function createFlock() {
+async function createFlock(creatorId) {
 	const code = codeGenerator.generateCode();
 	let curNum = 0;
 	// Check to see if the code already exists by finding
@@ -31,7 +31,7 @@ async function createFlock() {
 		curNum++;
 		finalCode = `${code}${curNum}`;
 	}
-	const flock = new Flock({ coopName: finalCode, chicks: [], basket: [] });
+	const flock = new Flock({ coopName: finalCode, chicks: [], basket: [], owner: creatorId });
 	return flock.save();
 }
 /**
@@ -75,7 +75,7 @@ async function addChickToFlock(coopName, chickName) {
 async function createHen(henName, henEmail, henPass){
 	const hash = bcrypt.hashSync(henPass, 10);	
 	const hen = new Hen({henName : henName, email : henEmail, hash: hash});
-
+	hen.save();
 	return hen;
 }
 export { findFlockByCode, findHenByEmail, createFlock, addChickToFlock, createEgg, createHen};

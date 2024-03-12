@@ -10,7 +10,7 @@ export default function RegisterPage(){
     const navigate = useNavigate();
     const [emailValue, setEmail] = useState("");
     const [passValue, setPassword] = useState("");
-    const [UserName, setUserName] = useState("");
+    const [userName, setUserName] = useState("");
 
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);
@@ -34,7 +34,7 @@ export default function RegisterPage(){
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({name: UserName, email: emailValue, pass: passValue})
+                    body: JSON.stringify({name: userName, email: emailValue, pass: passValue})
                 }
             );
             if (result.status === 201){

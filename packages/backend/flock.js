@@ -50,6 +50,10 @@ const flockSchema = new mongoose.Schema(
 		},
 		chicks: [chickSchema],
 		basket: [eggSchema],
+		owner: {
+			type: mongoose.ObjectId,
+			required: true,
+		},
 	},
 	{ collection: "flocks", timestamps: true }
 );
@@ -71,8 +75,7 @@ const henSchema = new mongoose.Schema(
 		hash: {
 			type: String,
 			required: true,
-		},
-		flocks: [mongoose.Schema.ObjectId],
+		}
 	},
 );
 

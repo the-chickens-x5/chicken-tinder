@@ -7,6 +7,8 @@ import { Server } from "socket.io";
 import { getTenorGIF } from "./services/tenor.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import { getUserId } from "./auth.js";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -47,7 +49,7 @@ app.post("/auth/login", async(req, res) =>{
 			res.status(401).send(error);
 		}
 		else{
-			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);			
+			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);
 			if(bcrypt.compareSync(pass, hen.hash)){
 				const token = jwt.sign({henID : hen._id, expiration : currentUnixTimeInSeconds + 3600}, process.env.JWT_SECRET_KEY);
 				return res.send({ token: token });
@@ -56,13 +58,15 @@ app.post("/auth/login", async(req, res) =>{
 		}
 	}
 	catch (e){
-		res.status(401).send(error);
+		console.error(e);
+		res.status(401).send(e);
 	}
 
 });
 
 app.post("/auth/register", async(req, res) =>{
 	try{
+		console.log(req.body);
 		const hen = await createHen(req.body.name, req.body.email, req.body.pass);
 		res.status(201).send(hen);
  	} catch (e){
@@ -88,7 +92,11 @@ app.get("/auth/check", async(req, res) =>{
 
 app.post("/flocks", async (req, res) => {
 	try {
-		const flock = await createFlock();
+		const userId = await getUserId(req, res);
+		if (!userId) {
+			return;
+		}
+		const flock = await createFlock(userId);
 		res.status(201).send(flock);
 	} catch (e) {
 		console.error(e);

@@ -17,6 +17,9 @@ export default function WelcomePage() {
 		}
 		const res = await fetch(`${process.env.REACT_APP_API_URL}/flocks`, {
 			method: "POST",
+			headers: {
+				Authorization: `Bearer ${auth.token}`,
+			}
 		});
 		if (res.status === 201) {
 			const info = await res.json();

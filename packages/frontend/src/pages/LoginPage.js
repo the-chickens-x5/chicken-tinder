@@ -40,6 +40,8 @@ export default function LoginPage(){
                     <span className="text-sm">No account? <a href="/register" className="text-blue-500 hover:underline">Register here</a></span>
                 </div>
                 <FullWidthButton onClick={handleLogin}>Login</FullWidthButton>
+                <h5 className="flex flex-col space-y-4">or</h5>
+                <button className="text-xl m-0" onClick={() => navigate(`register`)}>Register</button>
             </form>
         </div>
     )

@@ -57,6 +57,7 @@ export default function RegisterPage(){
                 <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
                 <Input onChange={handleChangePass}>Password</Input> 
                 <FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
+                
             </form>
            
         </div>

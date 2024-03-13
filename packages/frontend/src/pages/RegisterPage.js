@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react";
 import { FullWidthButton, SmallButton } from "../components/Input/Buttons";
-import TextButtonInput from "../components/Input/TextButtonInput";
 import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/auth-context";
 import toast from "react-hot-toast";
 
 export default function RegisterPage(){
@@ -25,7 +23,7 @@ export default function RegisterPage(){
     }
 
     async function handleRegister(event) {
-        event.preventDefault();
+        event.preventDefault(); // prevents refresh of page (or whatever default event)
         try{
             const result = await fetch(
                 `${process.env.REACT_APP_API_URL}/auth/register`,

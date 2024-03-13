@@ -40,8 +40,8 @@ describe("Happy Path -- Group Leader", () => {
 	});
 
 	it("create a flock and input name", () => {
-		cy.visit(`${FRONTEND_URL}/welcome/`);
 		cy.setCookie("token", jwt_token);
+		cy.visit(`${FRONTEND_URL}/welcome/`);
 
 		cy.get("button").contains("Rally my flock").click();
 
@@ -70,9 +70,9 @@ describe("Happy Path -- Group Leader", () => {
 			const { chickName } = data[FRONTEND_URL];
 			expect(chickName).to.eq(chickNameInput);
 		});
+		cy.setCookie("token", jwt_token);
 
 		cy.visit(`${FRONTEND_URL}/flock/${coopName}/lobby/`);
-		cy.setCookie("token", jwt_token);
 
 		cy.get("tbody").should("have.length", 1);
 		cy.get("td").should("contain", chickNameInput);
@@ -99,9 +99,9 @@ describe("Happy Path -- Group Leader", () => {
 			const { chickName } = data[FRONTEND_URL];
 			expect(chickName).to.eq(chickNameInput);
 		});
+		cy.setCookie("token", jwt_token);
 
 		cy.visit(`${FRONTEND_URL}/flock/${coopName}/voting/`);
-		cy.setCookie("token", jwt_token);
 
 		const votedEggs = [];
 

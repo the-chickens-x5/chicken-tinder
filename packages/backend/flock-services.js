@@ -4,7 +4,6 @@ import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import { Hash } from "crypto";
 
 dotenv.config();
 

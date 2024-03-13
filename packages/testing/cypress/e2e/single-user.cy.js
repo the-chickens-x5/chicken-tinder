@@ -10,9 +10,9 @@ describe("Happy Path -- Group Leader", () => {
 	const chickNameInput = "Cypress Test Chick";
 	const restaurantsInput = ["Test Restaurant 1", "Test Restaurant 2", "Test Restaurant 3"];
 
-	const chickUsername = "cypressTestChick";
-	const chickEmail = "test@chick.com";
-	const chickPassword = "testPassword";
+	// const chickUsername = "cypressTestChick";
+	// const chickEmail = "test@chick.com";
+	// const chickPassword = "testPassword";
 
 	let coopName;
 

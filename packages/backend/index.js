@@ -53,7 +53,7 @@ app.post("/auth/login", async (req, res) => {
 	try {
 		const hen = await findHenByEmail(email);
 		if (!hen) {
-			res.status(401).send(error);
+			res.status(401).send("Hen not found.");
 		} else {
 			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);
 			if (bcrypt.compareSync(pass, hen.hash)) {
@@ -61,9 +61,9 @@ app.post("/auth/login", async (req, res) => {
 					{ henID: hen._id, expiration: currentUnixTimeInSeconds + 3600 },
 					process.env.JWT_SECRET_KEY
 				);
-				return res.send({ token: token });
+				res.send({ token: token });
 			}
-			return res.status(403).send({ error: "wrong credentials" });
+			res.status(403).send({ error: "wrong credentials" });
 		}
 	} catch (e) {
 		console.error(e);

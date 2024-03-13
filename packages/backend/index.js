@@ -265,7 +265,7 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 		if (userId == flock.owner) {
 			flock.step += 1;
 			io.to(req.params.coopName).emit("message", { type: "flock-updated", newState: flock });
-            flock.save();
+			flock.save();
 		}
 		res.status(204).send();
 		return;
@@ -279,7 +279,7 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	};
 
 	const gifUrl = await getTenorGIF(newEgg.title);
-    flock.save();
+	flock.save();
 	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 

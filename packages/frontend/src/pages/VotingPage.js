@@ -15,7 +15,7 @@ export default function VotingPage() {
 
 	const params = useParams();
 	const navigate = useNavigate();
-    const auth = useContext(AuthContext);
+	const auth = useContext(AuthContext);
 
 	const coopName = params.coopName;
 	const chick = localStorage.getItem("chickName");
@@ -25,7 +25,7 @@ export default function VotingPage() {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-                "Authorization": `Bearer ${auth.token}`
+				Authorization: `Bearer ${auth.token}`,
 			},
 			body: body,
 		})

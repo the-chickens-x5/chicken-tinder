@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {Flock, Hen} from "./flock.js";
+import { Flock, Hen } from "./flock.js";
 import process from "process";
 import codeGenerator from "./code-generation/code-generator.js";
 import dotenv from "dotenv";
@@ -18,7 +18,7 @@ async function findFlockByCode(code) {
 }
 
 async function findHenByEmail(email) {
-	return Hen.findOne({email: email});
+	return Hen.findOne({ email: email });
 }
 
 async function createFlock(creatorId) {
@@ -72,10 +72,10 @@ async function addChickToFlock(coopName, chickName) {
 	return chick;
 }
 
-async function createHen(henName, henEmail, henPass){
-	const hash = bcrypt.hashSync(henPass, 10);	
-	const hen = new Hen({henName : henName, email : henEmail, hash: hash});
+async function createHen(henName, henEmail, henPass) {
+	const hash = bcrypt.hashSync(henPass, 10);
+	const hen = new Hen({ henName: henName, email: henEmail, hash: hash });
 	hen.save();
 	return hen;
 }
-export { findFlockByCode, findHenByEmail, createFlock, addChickToFlock, createEgg, createHen};
+export { findFlockByCode, findHenByEmail, createFlock, addChickToFlock, createEgg, createHen };

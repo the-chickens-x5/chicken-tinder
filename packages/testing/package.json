@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"aggregate-error": "^5.0.0",
-		"cli-truncate": "^4.0.0"
+		"cli-truncate": "^4.0.0",
+		"throttleit": "^2.0.0"
 	}
 }

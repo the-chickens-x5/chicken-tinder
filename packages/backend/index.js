@@ -62,8 +62,9 @@ app.post("/auth/login", async (req, res) => {
 					process.env.JWT_SECRET_KEY
 				);
 				res.send({ token: token });
+			} else {
+				res.status(403).send({ error: "wrong credentials" });
 			}
-			res.status(403).send({ error: "wrong credentials" });
 		}
 	} catch (e) {
 		console.error(e);

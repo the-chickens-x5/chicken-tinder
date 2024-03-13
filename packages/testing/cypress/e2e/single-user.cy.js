@@ -11,20 +11,38 @@ describe("Happy Path -- Group Leader", () => {
 	const restaurantsInput = ["Test Restaurant 1", "Test Restaurant 2", "Test Restaurant 3"];
 
 	// const chickUsername = "cypressTestChick";
-	// const chickEmail = "test@chick.com";
-	// const chickPassword = "testPassword";
+	const chickEmail = "test@chick.com";
+	const chickPassword = "testPassword";
 
 	let coopName;
+	let jwt_token;
 
 	it("open the app", () => {
 		cy.visit(FRONTEND_URL);
 		cy.get("button").click();
 	});
 
-	it("");
+	it("Log in", () => {
+		cy.visit(`${FRONTEND_URL}/welcome/`);
+		cy.get("button").contains("Rally my flock").click();
+
+		// log in
+		cy.get("input[placeholder='user@chickentinder.com']").type(chickEmail);
+		cy.get("span").contains("Password").next().type(chickPassword);
+		cy.get("button").contains("Login").click();
+
+		// verify login
+		cy.get("button").contains("Rally my flock").should("exist");
+		cy.getCookie("token").should("exist");
+		cy.getCookie("token").then((cookie) => {
+			jwt_token = cookie.value;
+		});
+	});
 
 	it("create a flock and input name", () => {
 		cy.visit(`${FRONTEND_URL}/welcome/`);
+		cy.setCookie("token", jwt_token);
+
 		cy.get("button").contains("Rally my flock").click();
 
 		cy.get("input[placeholder='Chickie McDee']").type(chickNameInput);
@@ -54,6 +72,7 @@ describe("Happy Path -- Group Leader", () => {
 		});
 
 		cy.visit(`${FRONTEND_URL}/flock/${coopName}/lobby/`);
+		cy.setCookie("token", jwt_token);
 
 		cy.get("tbody").should("have.length", 1);
 		cy.get("td").should("contain", chickNameInput);
@@ -82,6 +101,7 @@ describe("Happy Path -- Group Leader", () => {
 		});
 
 		cy.visit(`${FRONTEND_URL}/flock/${coopName}/voting/`);
+		cy.setCookie("token", jwt_token);
 
 		const votedEggs = [];
 

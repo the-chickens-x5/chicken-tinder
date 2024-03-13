@@ -19,13 +19,13 @@ Class diagram: ![here](./docs/schema.png)
 
 ## Development
 
-This script clones the repo (with SSH) and creates the necessary `.env` files. The backend env file must be configured with the relevant secrets.
+This script clones the repo (with SSH) and creates the necessary `.env` files. The backend env file must be configured with the relevant secrets. The JWT secret key can be any string.
 
 ```
 git clone git@github.com:the-chickens-x5/chicken-tinder.git
 cd chicken-tinder
 npm install
-echo 'DB_PASSWORD=copy_password_here \nTENOR_API_KEY=copy_key_here' > ./packages/backend/.env
+echo 'DB_PASSWORD=copy_password_here \nTENOR_API_KEY=copy_key_here \nJWT_SECRET_KEY=copy_key_here' > ./packages/backend/.env
 echo 'REACT_APP_API_URL=http://localhost:8000' > ./packages/frontend/.env
 ```
 

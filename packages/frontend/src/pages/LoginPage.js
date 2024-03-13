@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FullWidthButton, SmallButton } from "../components/Input/Buttons";
-import TextButtonInput from "../components/Input/TextButtonInput";
+import { FullWidthButton } from "../components/Input/Buttons";
 import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/auth-context";
@@ -41,10 +40,7 @@ export default function LoginPage() {
 					<Input onChange={handleChangePass}>Password</Input>
 					<span className="text-sm">
 						No account?{" "}
-						<a
-							onClick={() => navigate("/register")}
-							className="text-blue-500 hover:underline"
-						>
+						<a href="/register" className="text-blue-500 hover:underline">
 							Register here
 						</a>
 					</span>

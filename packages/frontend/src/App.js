@@ -10,7 +10,6 @@ import LoadingPage from "./pages/LoadingPage";
 import WinnerPage from "./pages/WinnerPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import ProtectedPage from "./components/ProtectedPage";
 import { Toaster } from "react-hot-toast";
 import { CoopProvider } from "./context/coop-context";
 import { AuthProvider } from "./context/auth-context";

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { FullWidthButton, SmallButton } from "../components/Input/Buttons";
+import React, { useState } from "react";
+import { FullWidthButton } from "../components/Input/Buttons";
 import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";

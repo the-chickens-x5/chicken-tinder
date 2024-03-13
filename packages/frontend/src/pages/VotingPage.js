@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { YesButton, NoButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-hot-toast";
+import AuthContext from "../context/auth-context";
 import { useTimer } from "react-timer-hook";
 
-export default function VotingPage(props) {
+export default function VotingPage() {
 	const [egg, setEgg] = useState(null);
 	const [gifUrl, setGifUrl] = useState(null);
 
+	const [done, setDone] = useState(false);
+
 	const params = useParams();
 	const navigate = useNavigate();
+    const auth = useContext(AuthContext);
 
 	const coopName = params.coopName;
 	const chick = localStorage.getItem("chickName");
@@ -21,12 +25,13 @@ export default function VotingPage(props) {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+                "Authorization": `Bearer ${auth.token}`
 			},
 			body: body,
 		})
 			.then((response) => {
 				if (response.status === 204) {
-					props.loadFlockState();
+					setDone(true);
 				} else {
 					return response.json();
 				}
@@ -57,7 +62,7 @@ export default function VotingPage(props) {
 
 	useEffect(() => {
 		const newExpiryTimestamp = new Date();
-		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5);
+		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 15);
 		restart(newExpiryTimestamp);
 	}, [egg]);
 
@@ -73,7 +78,7 @@ export default function VotingPage(props) {
 
 	return (
 		<>
-			{egg ? (
+			{egg && !done ? (
 				<div className="flex flex-col space-y-normal justify-center w-5/6 h-[550px]">
 					<FullWidthText name="egg">{egg.title}</FullWidthText>
 					<div className="flex flex-row justify-between h-full">

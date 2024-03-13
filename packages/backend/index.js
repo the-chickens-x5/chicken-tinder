@@ -250,7 +250,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 				flock.basket.id(egg._id).noVotes++;
 			}
 
-			flock.save();
 			voteStatus = "received";
 		}
 	}
@@ -262,6 +261,12 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	);
 
 	if (remainingOptions.length === 0) {
+		const userId = await getUserId(req, res, false);
+		if (userId == flock.owner) {
+			flock.step += 1;
+			io.to(req.params.coopName).emit("message", { type: "flock-updated", newState: flock });
+            flock.save();
+		}
 		res.status(204).send();
 		return;
 	}
@@ -274,7 +279,7 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	};
 
 	const gifUrl = await getTenorGIF(newEgg.title);
-
+    flock.save();
 	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 

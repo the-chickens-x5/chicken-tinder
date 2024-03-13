@@ -37,7 +37,6 @@ export default function MainFlockPage() {
 	}
 
 	async function nextStep() {
-		setLoading(true);
 		try {
 			const resp = await fetch(
 				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/step`,
@@ -57,7 +56,6 @@ export default function MainFlockPage() {
 		} catch (e) {
 			toast.error("Can't go to next step - are you the owner?");
 		}
-		setLoading(false);
 	}
 
 	useEffect(() => {

@@ -10,7 +10,6 @@ export function Input(props) {
 				onChange={props.onChange}
 				type={props.type}
 				required={props.required}
-				value={props.value}
 			/>
 		</div>
 	);

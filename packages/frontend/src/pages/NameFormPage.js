@@ -5,7 +5,7 @@ import TextButtonInput from "../components/Input/TextButtonInput";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-hot-toast";
 
-export default function NameFormPage() {
+export default function NameFormPage(props) {
 	const navigate = useNavigate();
 	const params = useParams();
 
@@ -68,7 +68,7 @@ export default function NameFormPage() {
 		if (chick) {
 			localStorage.setItem("chickName", chick.name);
 			localStorage.setItem("chickId", chick._id);
-			navigate(`/flock/${params.coopName}/lobby/`);
+			navigate(`/flock/${params.coopName}`);
 		}
 	}
 

@@ -54,6 +54,11 @@ const flockSchema = new mongoose.Schema(
 			type: mongoose.ObjectId,
 			required: true,
 		},
+		step: {
+			type: Number,
+			required: true,
+			default: 1,
+		},
 	},
 	{ collection: "flocks", timestamps: true }
 );

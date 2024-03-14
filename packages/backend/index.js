@@ -106,7 +106,6 @@ app.post("/flocks", async (req, res) => {
 		const flock = await createFlock(userId);
 		res.status(201).send(flock);
 	} catch (e) {
-		console.error(e);
 		res.status(500).send("Failed to create flock");
 	}
 });
@@ -120,16 +119,35 @@ app.get("/flocks/:code", async (req, res) => {
 	}
 });
 
-app.post("/flocks/:coopName/chicks", async (req, res) => {
-	const chick = await addChickToFlock(req.params.coopName, req.body.name);
+app.post("/flocks/:code/step", async (req, res) => {
+	const flock = await findFlockByCode(req.params.code);
+	const userId = await getUserId(req, res);
 
-	if (!chick) {
+	if (userId !== flock.owner.toString()) {
+		res.status(403).send({ message: "User is not the owner" });
+		return;
+	}
+
+	const newStep = req.body.step || flock.step + 1;
+	flock.step = newStep;
+	flock.save();
+	io.to(req.params.code).emit("message", { type: "flock-updated", newState: flock });
+	res.send(flock);
+});
+
+app.post("/flocks/:coopName/chicks", async (req, res) => {
+	const chickAndFlock = await addChickToFlock(req.params.coopName, req.body.name);
+
+	if (!chickAndFlock) {
 		res.status(400).send({ message: "Chick already exists" });
 		return;
 	}
 
-	io.to(req.params.coopName).emit("message", { type: "chick-added", chick: chick });
-	res.send(chick);
+	io.to(req.params.coopName).emit("message", {
+		type: "flock-updated",
+		newState: chickAndFlock["newFlock"],
+	});
+	res.send(chickAndFlock["chick"]);
 });
 
 app.delete("/flocks/:code", (req, res) => {
@@ -165,10 +183,13 @@ app.post("/flocks/:coopName/basket/:title", async (req, res) => {
 		if (!egg) {
 			res.status(409).send({ message: "egg already exists" });
 		} else {
-			res.status(201).send(egg);
+			io.to(req.params.coopName).emit("message", {
+				type: "flock-updated",
+				newState: egg.newFlock,
+			});
+			res.status(201).send(egg.egg);
 		}
 	} catch (e) {
-		console.error(e);
 		res.status(500).send("Failed to create egg");
 	}
 });
@@ -236,7 +257,6 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 				flock.basket.id(egg._id).noVotes++;
 			}
 
-			flock.save();
 			voteStatus = "received";
 		}
 	}
@@ -248,6 +268,12 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	);
 
 	if (remainingOptions.length === 0) {
+		const userId = await getUserId(req, res, false);
+		if (userId === flock.owner.toString()) {
+			flock.step += 1;
+			io.to(req.params.coopName).emit("message", { type: "flock-updated", newState: flock });
+			flock.save();
+		}
 		res.status(204).send();
 		return;
 	}
@@ -260,7 +286,7 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	};
 
 	const gifUrl = await getTenorGIF(newEgg.title);
-
+	flock.save();
 	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 

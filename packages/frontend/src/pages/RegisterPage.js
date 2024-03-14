@@ -1,9 +1,7 @@
-import React, { useContext, useState } from "react";
-import { FullWidthButton, SmallButton } from "../components/Input/Buttons";
-import TextButtonInput from "../components/Input/TextButtonInput";
+import React, { useState } from "react";
+import { FullWidthButton } from "../components/Input/Buttons";
 import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/auth-context";
 import toast from "react-hot-toast";
 
 export default function RegisterPage() {
@@ -25,7 +23,7 @@ export default function RegisterPage() {
 	};
 
 	async function handleRegister(event) {
-		event.preventDefault();
+		event.preventDefault(); // prevents refresh of page (or whatever default event)
 		try {
 			const result = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
 				method: "POST",
@@ -48,23 +46,13 @@ export default function RegisterPage() {
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<form className="flex flex-col space-y-10 justify-center items-center">
-				<Input
-					placeholder="chickenFeet123"
-					onChange={handleChangeUserName}
-					value={userName}
-				>
+				<Input placeholder="chickenFeet123" onChange={handleChangeUserName}>
 					Username
 				</Input>
-				<Input
-					placeholder="user@chickentinder.com"
-					onChange={handleChangeEmail}
-					value={emailValue}
-				>
+				<Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>
 					Email
 				</Input>
-				<Input onChange={handleChangePass} value={passValue}>
-					Password
-				</Input>
+				<Input onChange={handleChangePass}>Password</Input>
 				<FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
 			</form>
 		</div>

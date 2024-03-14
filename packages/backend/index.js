@@ -53,7 +53,7 @@ app.post("/auth/login", async (req, res) => {
 	try {
 		const hen = await findHenByEmail(email);
 		if (!hen) {
-			res.status(401).send(error);
+			res.status(401).send("Hen not found.");
 		} else {
 			const currentUnixTimeInSeconds = Math.floor(Date.now() / 1000);
 			if (bcrypt.compareSync(pass, hen.hash)) {
@@ -61,20 +61,24 @@ app.post("/auth/login", async (req, res) => {
 					{ henID: hen._id, expiration: currentUnixTimeInSeconds + 3600 },
 					process.env.JWT_SECRET_KEY
 				);
-				return res.send({ token: token });
+				res.send({ token: token });
+			} else {
+				res.status(403).send({ error: "wrong credentials" });
 			}
-			return res.status(403).send({ error: "wrong credentials" });
 		}
 	} catch (e) {
+		console.error(e);
 		res.status(401).send(e);
 	}
 });
 
 app.post("/auth/register", async (req, res) => {
 	try {
+		console.log(req.body);
 		const hen = await createHen(req.body.name, req.body.email, req.body.pass);
 		res.status(201).send(hen);
 	} catch (e) {
+		console.error(e);
 		res.status(500).send("Failed to create hen");
 	}
 });
@@ -222,11 +226,11 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	const egg = req.body.egg;
 
 	const flock = await findFlockByCode(coopName);
-	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!flock) {
 		res.status(404).send({ message: "Flock not found" });
 		return;
 	}
+	const chick = flock.chicks.find((chick) => chick.name === chickName);
 	if (!chick) {
 		res.status(404).send({ message: "Chick not found" });
 		return;

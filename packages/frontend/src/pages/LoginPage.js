@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FullWidthButton, SmallButton } from "../components/Input/Buttons";
-import TextButtonInput from "../components/Input/TextButtonInput";
+import { FullWidthButton } from "../components/Input/Buttons";
 import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/auth-context";
@@ -22,7 +21,6 @@ export default function LoginPage() {
 	};
 
 	async function handleLogin(event) {
-		console.log(emailValue, passValue);
 		event.preventDefault();
 		const res = await auth.login(emailValue, passValue);
 		if (res) {
@@ -35,23 +33,14 @@ export default function LoginPage() {
 	return (
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<form className="flex flex-col space-y-10 justify-center items-center">
-				<Input
-					placeholder="user@chickentinder.com"
-					onChange={handleChangeEmail}
-					value={emailValue}
-				>
+				<Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>
 					Email
 				</Input>
 				<div className="flex flex-col w-full">
-					<Input onChange={handleChangePass} value={passValue}>
-						Password
-					</Input>
+					<Input onChange={handleChangePass}>Password</Input>
 					<span className="text-sm">
 						No account?{" "}
-						<a
-							onClick={() => navigate("/register")}
-							className="text-blue-500 hover:underline"
-						>
+						<a href="/register" className="text-blue-500 hover:underline">
 							Register here
 						</a>
 					</span>

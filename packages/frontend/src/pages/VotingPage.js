@@ -62,7 +62,7 @@ export default function VotingPage() {
 
 	useEffect(() => {
 		const newExpiryTimestamp = new Date();
-		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 15);
+		newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 5);
 		restart(newExpiryTimestamp);
 	}, [egg]);
 

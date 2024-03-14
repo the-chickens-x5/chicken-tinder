@@ -27,7 +27,7 @@ export default function GroupListPage(props) {
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Coop Name: {params.coopName}</FullWidthText>
 			<TextButtonInput
-				value={window.location.href.replace("/lobby", "/join")}
+				value={`${window.location.href}/join/`}
 				buttonText="copy invite link"
 				onClick={copyToClipboardAndNotify}
 				textDisabled={true}

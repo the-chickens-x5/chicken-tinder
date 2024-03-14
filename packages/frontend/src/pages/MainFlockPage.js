@@ -69,7 +69,7 @@ export default function MainFlockPage() {
 	}, []);
 
 	useEffect(() => {
-		if (coop.lastMessage && coop.lastMessage.type == "flock-updated") {
+		if (coop.lastMessage && coop.lastMessage.type === "flock-updated") {
 			setFlock(coop.lastMessage.newState);
 		}
 	}, [coop.lastMessage]);

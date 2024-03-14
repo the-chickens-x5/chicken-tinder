@@ -122,7 +122,7 @@ app.get("/flocks/:code", async (req, res) => {
 app.post("/flocks/:code/step", async (req, res) => {
 	const flock = await findFlockByCode(req.params.code);
 	const userId = await getUserId(req, res);
-	if (userId != flock.owner) {
+	if (userId !== flock.owner) {
 		return;
 	}
 	const newStep = req.body.step || flock.step + 1;
@@ -266,7 +266,7 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 
 	if (remainingOptions.length === 0) {
 		const userId = await getUserId(req, res, false);
-		if (userId == flock.owner) {
+		if (userId === flock.owner) {
 			flock.step += 1;
 			io.to(req.params.coopName).emit("message", { type: "flock-updated", newState: flock });
 			flock.save();

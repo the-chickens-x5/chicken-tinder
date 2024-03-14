@@ -122,7 +122,7 @@ app.get("/flocks/:code", async (req, res) => {
 app.post("/flocks/:code/step", async (req, res) => {
 	const flock = await findFlockByCode(req.params.code);
 	const userId = await getUserId(req, res);
-    // getUserId sends so we don't need to in case of userId not being owner
+	// getUserId sends so we don't need to in case of userId not being owner
 
 	if (userId !== flock.owner.toString()) {
 		return;

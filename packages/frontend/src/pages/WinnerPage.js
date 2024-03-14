@@ -46,7 +46,7 @@ export default function WinnerPage(props) {
 					buttonText="Revote"
 					onClick={async (e) => {
 						await resetEggs();
-                        props.nextStep(e, 2);
+						props.nextStep(e, 2);
 					}}
 				/>
 			</div>

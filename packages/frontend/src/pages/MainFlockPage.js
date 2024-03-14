@@ -39,9 +39,7 @@ export default function MainFlockPage() {
 	async function nextStep(e, jump = null) {
 		e.preventDefault();
 		try {
-			console.log("JUMP:", jump);
 			const body = jump ? { step: jump } : {};
-			console.log(body);
 			const resp = await fetch(
 				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/step`,
 				{
@@ -53,17 +51,14 @@ export default function MainFlockPage() {
 					body: JSON.stringify(body),
 				}
 			);
-			console.log("3");
 			if (resp.status < 300 && resp.status >= 200) {
 				const jsn = await resp.json();
 				setFlock(jsn);
 			} else {
-				console.log("THIS ERR 1");
-				toast.error("Can't go to next step - are you the owner?");
+				toast.error("Can't go to next step - are you the mother hen?");
 			}
 		} catch (e) {
-			console.log("THAT ERR 2");
-			toast.error("Can't go to next step - are you the owner?");
+			toast.error("Error while attempting to step through pages");
 		}
 	}
 

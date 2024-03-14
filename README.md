@@ -8,6 +8,8 @@ The deployed app can be viewed at: https://thechickens.netlify.app
 
 And the backend can be accessed from: https://chickentinder-backend.azurewebsites.net/
 
+[Here is a video demo of our product](https://drive.google.com/file/d/1Eo5CBs-h_l4akQ4Ad6qsmYZaXKlyAX-n/view?usp=sharing) (last updated 3/13/24)
+
 ## Artifacts
 
 UI prototypes and designs are located in Figma (last updated 2/27/24):
@@ -41,6 +43,20 @@ Before commiting/pushing, maintain style conventions with:
 ```
 npm run format
 npm run lint
+```
+
+## Testing
+
+To run Cypress testing once:
+
+```
+npm run test
+```
+
+To open the Cypress GUI (make sure the frontend and backend are both up):
+
+```
+npm -w testing run cy:open
 ```
 
 ### Frontend Environment Variables

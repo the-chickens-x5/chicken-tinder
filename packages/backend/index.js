@@ -122,9 +122,12 @@ app.get("/flocks/:code", async (req, res) => {
 app.post("/flocks/:code/step", async (req, res) => {
 	const flock = await findFlockByCode(req.params.code);
 	const userId = await getUserId(req, res);
-    if (userId !== flock.owner.toString()) {
+
+	if (userId !== flock.owner.toString()) {
+		res.status(403).send({ message: "User is not the owner" });
 		return;
 	}
+
 	const newStep = req.body.step || flock.step + 1;
 	flock.step = newStep;
 	flock.save();

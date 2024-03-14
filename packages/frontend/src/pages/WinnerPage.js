@@ -43,7 +43,7 @@ export default function WinnerPage() {
 			<div className="flex justify-between">
 				<HalfWidthButton buttonText="Return Home" onClick={() => navigate("/")} />
 				<HalfWidthButton
-					buttonText="Revote"
+					buttonText="Start Over"
 					onClick={async () => {
 						await resetEggs();
 						navigate(`/flock/${params.coopName}/nominations/`);

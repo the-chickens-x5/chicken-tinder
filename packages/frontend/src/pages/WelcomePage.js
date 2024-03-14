@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { FullWidthButton } from "../components/Input/Buttons";
 import TextButtonInput from "../components/Input/TextButtonInput";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function WelcomePage() {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${auth.token}`,
-			}
+			},
 		});
 		if (res.status === 201) {
 			const info = await res.json();

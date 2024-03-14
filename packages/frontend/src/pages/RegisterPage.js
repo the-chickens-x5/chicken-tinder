@@ -4,23 +4,23 @@ import { Input } from "../components/Input/Input";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-export default function RegisterPage(){
-    const navigate = useNavigate();
-    const [emailValue, setEmail] = useState("");
-    const [passValue, setPassword] = useState("");
-    const [userName, setUserName] = useState("");
+export default function RegisterPage() {
+	const navigate = useNavigate();
+	const [emailValue, setEmail] = useState("");
+	const [passValue, setPassword] = useState("");
+	const [userName, setUserName] = useState("");
 
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
-    }
+	const handleChangeEmail = (event) => {
+		setEmail(event.target.value);
+	};
 
-    const handleChangePass = (event) => {
-        setPassword(event.target.value);
-    }
+	const handleChangePass = (event) => {
+		setPassword(event.target.value);
+	};
 
-    const handleChangeUserName = (event) => {
-        setUserName(event.target.value);
-    }
+	const handleChangeUserName = (event) => {
+		setUserName(event.target.value);
+	};
 
     async function handleRegister(event) {
         event.preventDefault(); // prevents refresh of page (or whatever default event)
@@ -48,16 +48,28 @@ export default function RegisterPage(){
     }
 
 
-    return (
-        <div className="flex flex-col space-y-normal justify-center w-5/6">
-            <form className="flex flex-col space-y-10 justify-center items-center">
-                <Input placeholder="chickenFeet123" onChange={handleChangeUserName}>Username</Input>
-                <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
-                <Input onChange={handleChangePass}>Password</Input> 
-                <FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
-                
-            </form>
-           
-        </div>
-    )
+	return (
+		<div className="flex flex-col space-y-normal justify-center w-5/6">
+			<form className="flex flex-col space-y-10 justify-center items-center">
+				<Input
+					placeholder="chickenFeet123"
+					onChange={handleChangeUserName}
+					value={userName}
+				>
+					Username
+				</Input>
+				<Input
+					placeholder="user@chickentinder.com"
+					onChange={handleChangeEmail}
+					value={emailValue}
+				>
+					Email
+				</Input>
+				<Input onChange={handleChangePass} value={passValue}>
+					Password
+				</Input>
+				<FullWidthButton onClick={handleRegister}>Register</FullWidthButton>
+			</form>
+		</div>
+	);
 }

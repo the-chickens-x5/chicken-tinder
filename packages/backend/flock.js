@@ -54,32 +54,35 @@ const flockSchema = new mongoose.Schema(
 			type: mongoose.ObjectId,
 			required: true,
 		},
+		step: {
+			type: Number,
+			required: true,
+			default: 1,
+		},
 	},
 	{ collection: "flocks", timestamps: true }
 );
 
-const henSchema = new mongoose.Schema(
-	{
-		henName: {
-			type: String,
-			required: true,
-			trim: true,
-			unique: true,
-		},
-		email: {
-			type: String,
-			required: true,
-			trim: true,
-			unique: true,
-		},
-		hash: {
-			type: String,
-			required: true,
-		}
+const henSchema = new mongoose.Schema({
+	henName: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
 	},
-);
+	email: {
+		type: String,
+		required: true,
+		trim: true,
+		unique: true,
+	},
+	hash: {
+		type: String,
+		required: true,
+	},
+});
 
 const Flock = mongoose.model("Flock", flockSchema);
 const Hen = mongoose.model("Hen", henSchema);
 
-export {Flock, Hen};
+export { Flock, Hen };

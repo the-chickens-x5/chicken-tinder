@@ -30,16 +30,23 @@ export default function LoginPage() {
 		}
 	}
 
-    return (
-        <div className="flex flex-col space-y-normal justify-center w-5/6">
-            <form className="flex flex-col space-y-10 justify-center items-center">
-                <Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>Email</Input>
-                <div className="flex flex-col w-full">
-                    <Input onChange={handleChangePass}>Password</Input> 
-                    <span className="text-sm">No account? <a onClick={() => navigate("/register")} className="text-blue-500 hover:underline">Register here</a></span>
-                </div>
-                <FullWidthButton onClick={handleLogin}>Login</FullWidthButton>
-            </form>
-        </div>
-    )
+	return (
+		<div className="flex flex-col space-y-normal justify-center w-5/6">
+			<form className="flex flex-col space-y-10 justify-center items-center">
+				<Input placeholder="user@chickentinder.com" onChange={handleChangeEmail}>
+					Email
+				</Input>
+				<div className="flex flex-col w-full">
+					<Input onChange={handleChangePass}>Password</Input>
+					<span className="text-sm">
+						No account?{" "}
+						<a href="/register" className="text-blue-500 hover:underline">
+							Register here
+						</a>
+					</span>
+				</div>
+				<FullWidthButton onClick={handleLogin}>Login</FullWidthButton>
+			</form>
+		</div>
+	);
 }

@@ -45,11 +45,18 @@ npm run format
 npm run lint
 ```
 
-To run Cypress testing:
+## Testing
+
+To run Cypress testing once:
 
 ```
-npm cy:run
-npm test
+npm run test
+```
+
+To open the Cypress GUI (make sure the frontend and backend are both up):
+
+```
+npm -w testing run cy:open
 ```
 
 ### Frontend Environment Variables

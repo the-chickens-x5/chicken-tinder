@@ -40,7 +40,7 @@ export default function GroupListPage() {
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Coop Name: {params.coopName}</FullWidthText>
 			<TextButtonInput
-				value={`http://localhost:3000/flock/${params.coopName}/join/`}
+				value={window.location.href.replace("/lobby", "/join")}
 				buttonText="copy invite link"
 				onClick={copyToClipboardAndNotify}
 				textDisabled={true}

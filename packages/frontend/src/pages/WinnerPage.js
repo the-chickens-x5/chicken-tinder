@@ -4,7 +4,7 @@ import { FullWidthText, BigText } from "../components/Input/Text";
 import { HalfWidthButton } from "../components/Input/Buttons";
 import LoadingPage from "./LoadingPage";
 
-export default function WinnerPage() {
+export default function WinnerPage(props) {
 	const navigate = useNavigate();
 	const params = useParams();
 
@@ -44,9 +44,9 @@ export default function WinnerPage() {
 				<HalfWidthButton buttonText="Return Home" onClick={() => navigate("/")} />
 				<HalfWidthButton
 					buttonText="Revote"
-					onClick={async () => {
+					onClick={async (e) => {
 						await resetEggs();
-						navigate(`/flock/${params.coopName}/nominations/`);
+                        props.nextStep(e, 2);
 					}}
 				/>
 			</div>

@@ -122,12 +122,19 @@ app.get("/flocks/:code", async (req, res) => {
 app.post("/flocks/:code/step", async (req, res) => {
 	const flock = await findFlockByCode(req.params.code);
 	const userId = await getUserId(req, res);
-	if (userId != flock.owner) {
+	// getUserId sends so we don't need to in case of userId not being owner
+
+	if (userId !== flock.owner.toString()) {
 		return;
 	}
+
 	const newStep = req.body.step || flock.step + 1;
 	flock.step = newStep;
-	flock.save();
+	try {
+		await flock.save();
+	} catch {
+		// no-op big sad
+	}
 	io.to(req.params.code).emit("message", { type: "flock-updated", newState: flock });
 	res.send(flock);
 });
@@ -207,7 +214,11 @@ app.delete("/flocks/:coopName/basket", async (req, res) => {
 	flock.chicks.forEach((chick) => {
 		chick.preferences = [];
 	});
-	await flock.save();
+	try {
+		await flock.save();
+	} catch {
+		// no-op big sad
+	}
 	res.status(200).send();
 });
 
@@ -266,10 +277,14 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 
 	if (remainingOptions.length === 0) {
 		const userId = await getUserId(req, res, false);
-		if (userId == flock.owner) {
+		if (userId === flock.owner.toString()) {
 			flock.step += 1;
 			io.to(req.params.coopName).emit("message", { type: "flock-updated", newState: flock });
-			flock.save();
+			try {
+				await flock.save();
+			} catch {
+				// no-op big sad
+			}
 		}
 		res.status(204).send();
 		return;
@@ -283,7 +298,11 @@ app.post("/flocks/:coopName/:chick/vote", async (req, res) => {
 	};
 
 	const gifUrl = await getTenorGIF(newEgg.title);
-	flock.save();
+	try {
+		await flock.save();
+	} catch {
+		// no-op big sad
+	}
 	res.send({ voteStatus: voteStatus, egg: newEgg, gifUrl: gifUrl });
 });
 

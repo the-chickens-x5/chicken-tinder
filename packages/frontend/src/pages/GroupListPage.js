@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { FullWidthText } from "../components/Input/Text";
 import { SmallButton } from "../components/Input/Buttons";
 import { BigText } from "../components/Input/Text";
@@ -27,7 +27,7 @@ export default function GroupListPage(props) {
 		<div className="flex flex-col space-y-normal justify-center w-5/6">
 			<FullWidthText>Coop Name: {params.coopName}</FullWidthText>
 			<TextButtonInput
-				value={`http://localhost:3000/flock/${params.coopName}/join/`}
+				value={`${window.location.href}/join/`}
 				buttonText="copy invite link"
 				onClick={copyToClipboardAndNotify}
 				textDisabled={true}

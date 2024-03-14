@@ -36,24 +36,33 @@ export default function MainFlockPage() {
 		}
 	}
 
-	async function nextStep() {
+	async function nextStep(e, jump = null) {
+		e.preventDefault();
 		try {
+			console.log("JUMP:", jump);
+			const body = jump ? { step: jump } : {};
+			console.log(body);
 			const resp = await fetch(
 				`${process.env.REACT_APP_API_URL}/flocks/${params.coopName}/step`,
 				{
 					method: "POST",
 					headers: {
 						Authorization: `Bearer ${auth.token}`,
+						"Content-Type": "application/json",
 					},
+					body: JSON.stringify(body),
 				}
 			);
+			console.log("3");
 			if (resp.status < 300 && resp.status >= 200) {
 				const jsn = await resp.json();
 				setFlock(jsn);
 			} else {
+				console.log("THIS ERR 1");
 				toast.error("Can't go to next step - are you the owner?");
 			}
 		} catch (e) {
+			console.log("THAT ERR 2");
 			toast.error("Can't go to next step - are you the owner?");
 		}
 	}
@@ -69,7 +78,7 @@ export default function MainFlockPage() {
 	}, []);
 
 	useEffect(() => {
-		if (coop.lastMessage && coop.lastMessage.type == "flock-updated") {
+		if (coop.lastMessage && coop.lastMessage.type === "flock-updated") {
 			setFlock(coop.lastMessage.newState);
 		}
 	}, [coop.lastMessage]);
@@ -87,7 +96,7 @@ export default function MainFlockPage() {
 					} else if (flock.step === 3) {
 						return <VotingPage loadFlockState={loadFlockState} flock={flock} />;
 					} else if (flock.step === 4) {
-						return <WinnerPage flock={flock} />;
+						return <WinnerPage nextStep={nextStep} flock={flock} />;
 					} else {
 						return <div>Something went horribly wrong...</div>;
 					}
